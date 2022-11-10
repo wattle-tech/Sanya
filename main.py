@@ -41,7 +41,7 @@ def input ():
 
 #Главная логика (распределение задач по функциям)
 def processing ():
-    pass
+    print ("hello world")
 
 def cmd (text):
     pass
