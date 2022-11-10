@@ -38,13 +38,13 @@ def play(text: str):
     sd.stop() #Останавливает воспроизведение
 
 #На выходе должен выдовать стринговую переменную, для дальнейшего использования
-def input_i ():
+def input_i():
     text = str(input())
     text = text.lower()
     return text
 
 #Главная логика (распределение задач по функциям)
-def name_removing (text):
+def name_removing(text):
     text = input_i ()
     for i in range(len(names)):
         if text.startswith(names[i]):
@@ -53,7 +53,7 @@ def name_removing (text):
 
 
 #Главная логика (распределение задач по функциям)
-def processing ():
+def processing():
     coef = 0
     text = input_i()
 
@@ -84,8 +84,8 @@ def processing ():
         play ("Вы хотите поговорить")
 
 #commands
-def time_1 ():
+def time_1():
     pass
 
 while True:
-    processing ()
+    processing()
