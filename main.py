@@ -2,23 +2,20 @@
 from thefuzz import fuzz
 from thefuzz import process
 
-import time
-import os
-
 
 #основные (статичные) переменные
 list = []
 
 
 #На выходе должен выдовать стринговую переменную, для дальнейшего использования
-def Input ():
-    Text = str(input())
-    Text = Text.lower()
-    return Text
+def input ():
+    text = str(input())
+    text = text.lower()
+    return text
 
 #Главная логика (распределение задач по функциям)
-def Processing ():
+def processing ():
     pass
 
-def Comm (Text):
+def cmd (text):
     pass
