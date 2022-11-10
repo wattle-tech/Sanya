@@ -25,7 +25,7 @@ model.to(device)
 
 
 def play (text: str): #Воспроизведение звука
-    audio = model.apply_tts(text=text,
+    audio = model.apply_tts(text=text,s
                             speaker=speaker,
                             sample_rate=sample_rate,
                             put_accent=True,
