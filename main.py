@@ -44,7 +44,7 @@ def input_i():
     return text
 
 #Главная логика (распределение задач по функциям)
-def name_removing(text):
+def recognize(text):
     text = input_i ()
     for i in range(len(names)):
         if text.startswith(names[i]):
@@ -53,7 +53,7 @@ def name_removing(text):
 
 
 #Главная логика (распределение задач по функциям)
-def processing():
+def threading():
     coef = 0
     text = input_i()
 
@@ -88,4 +88,4 @@ def time_1():
     pass
 
 while True:
-    processing()
+    recognize()
