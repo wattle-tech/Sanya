@@ -6,7 +6,9 @@ import sounddevice as sd
 import time
 
 #основные (статичные) переменные
-list = []
+names = ["саша", "саня", "александр"]
+times = ["сколько время?", "который час?", "сколько времени"]
+translate = ["переведи", "перевод"]
 
 #Модель голоса
 language = 'ru'
@@ -22,7 +24,7 @@ model, example_text = torch.hub.load(repo_or_dir='snakers4/silero-models',
 model.to(device)
 
 
-def play(text: str):
+def play (text: str): #Воспроизведение звука
     audio = model.apply_tts(text=text,
                             speaker=speaker,
                             sample_rate=sample_rate,
@@ -39,9 +41,18 @@ def input ():
     text = text.lower()
     return text
 
+def name_removing (text):
+    text = input ()
+    for i in range(len(names)):
+        if text.startswith(names[i]):
+            text = text.replace(names[1], "")
+            return text
+
+
 #Главная логика (распределение задач по функциям)
 def processing ():
-    pass
+    for x in range(len(times)):
+        pass
 
 def cmd (text):
     pass
