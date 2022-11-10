@@ -3,6 +3,7 @@ from thefuzz import fuzz
 from thefuzz import process
 import torch
 import sounddevice as sd
+import time
 
 
 #основные (статичные) переменные
@@ -36,13 +37,13 @@ def play (text: str): #Воспроизведение звука
     sd.stop() #Останавливает воспроизведение
 
 #На выходе должен выдовать стринговую переменную, для дальнейшего использования
-def input ():
+def input_i ():
     text = str(input())
     text = text.lower()
     return text
 
 def name_removing (text):
-    text = input ()
+    text = input_i ()
     for i in range(len(names)):
         if text.startswith(names[i]):
             text = text.replace(names[1], "")
@@ -52,27 +53,37 @@ def name_removing (text):
 #Главная логика (распределение задач по функциям)
 def processing ():
     coef = 0
+    text = input_i()
 
     #time
     now_t = 0
-    max_t = 0
+    max_t = 0 #максимальные совпадения по категории перевода
     for x in range(len(times)):
-        now_t = fuzz.ratio()
-        if now > max:
+        now_t = fuzz.ratio(text, times[x]) #сравнение
+        if now_t > max_t:
             max_t = now_t
         if max_t < 60:
-            max_t = 0
+            max_t = 0 
     
     #translate
     now_tr = 0
-    max_tr = 0
-    for x in range(len(translate)):
-        now_tr = fuzz.ratio()
-        if now > max:
+    max_tr = 0 #максимальные совпадения по категории перевода
+    for z in range(len(translate)):
+        now_tr = fuzz.ratio(text, translate[z]) #сравнение
+        if now_tr > max_tr:
             max_tr = now_tr
         if max_tr < 60:
             max_tr = 0
+    if max_t > max_tr:
+        play("Вы спросили про время")
+    elif max_tr > max_t:
+        play("Вы спросили по перевод")
+    else:
+        play ("Вы хотите поговорить")
 
 #commands
 def time_1 ():
     pass
+
+while True:
+    processing ()
