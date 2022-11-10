@@ -4,6 +4,7 @@ from thefuzz import process
 import torch
 import sounddevice as sd
 
+
 #основные (статичные) переменные
 names = ["саша", "саня", "александр"]
 times = ["сколько время?", "который час?", "сколько времени"]
