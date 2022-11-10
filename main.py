@@ -43,13 +43,15 @@ def input ():
 
 def name_removing (text):
     text = input ()
+    for i in range(len(names)):
+        if text.startswith(names[i]):
+            pass
 
-    for i in 
 
 #Главная логика (распределение задач по функциям)
 def processing ():
     for x in range(len(times)):
-
+        pass
 
 def cmd (text):
     pass
