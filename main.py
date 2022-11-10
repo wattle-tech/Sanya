@@ -25,7 +25,7 @@ model.to(device)
 
 
 def play (text: str): #Воспроизведение звука
-    audio = model.apply_tts(text=text,s
+    audio = model.apply_tts(text=text,
                             speaker=speaker,
                             sample_rate=sample_rate,
                             put_accent=True,
@@ -45,7 +45,8 @@ def name_removing (text):
     text = input ()
     for i in range(len(names)):
         if text.startswith(names[i]):
-            pass
+            text = text.replace(names[1], "")
+            return text
 
 
 #Главная логика (распределение задач по функциям)
