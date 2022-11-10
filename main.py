@@ -3,7 +3,6 @@ from thefuzz import fuzz
 from thefuzz import process
 import torch
 import sounddevice as sd
-import time
 
 #основные (статичные) переменные
 names = ["саша", "саня", "александр"]
@@ -51,8 +50,28 @@ def name_removing (text):
 
 #Главная логика (распределение задач по функциям)
 def processing ():
-    for x in range(len(times)):
-        pass
+    coef = 0
 
-def cmd (text):
+    #time
+    now_t = 0
+    max_t = 0
+    for x in range(len(times)):
+        now_t = fuzz.ratio()
+        if now > max:
+            max_t = now_t
+        if max_t < 60:
+            max_t = 0
+    
+    #translate
+    now_tr = 0
+    max_tr = 0
+    for x in range(len(translate)):
+        now_tr = fuzz.ratio()
+        if now > max:
+            max_tr = now_tr
+        if max_tr < 60:
+            max_tr = 0
+
+#commands
+def time_1 ():
     pass
