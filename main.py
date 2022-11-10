@@ -6,6 +6,9 @@ import sounddevice as sd
 import time
 
 #основные (статичные) переменные
+names = ["саша", "саня", "александр", "санёк"]
+times = ["сколько время?", "который час?", "сколько времени"]
+translate = ["переведи", "перевод"]
 list = []
 
 #Модель голоса
@@ -40,8 +43,20 @@ def input ():
     return text
 
 #Главная логика (распределение задач по функциям)
+def name_removing (text):
+    text = input ()
+    for i in range(len(names)):
+        if text.startswith(names[i]):
+            text = text.replace(names[1], "")
+            return text
+
+
+#Главная логика (распределение задач по функциям)
 def processing ():
+    for x in range(len(times)):
+        pass
     pass
 
 def cmd (text):
     pass
+    
