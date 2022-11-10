@@ -7,9 +7,10 @@ import time
 
 
 #основные (статичные) переменные
-names = ["саша", "саня", "александр"]
+names = ["саша", "саня", "александр", "санёк"]
 times = ["сколько время?", "который час?", "сколько времени"]
 translate = ["переведи", "перевод"]
+list = []
 
 #Модель голоса
 language = 'ru'
@@ -18,14 +19,14 @@ sample_rate = 48000
 speaker = 'eugene' #aidar, baya, kseniya, xenia, eugene, random
 device = torch.device('cpu') # gpu or cpu
 
-model, example_text = torch.hub.load(repo_or_dir='snakers4/silero-models',
+model = torch.hub.load(repo_or_dir='snakers4/silero-models',
                                     model='silero_tts',
                                     language=language,
                                     speaker=model_id)
 model.to(device)
 
 
-def play (text: str): #Воспроизведение звука
+def play(text: str):
     audio = model.apply_tts(text=text,
                             speaker=speaker,
                             sample_rate=sample_rate,
@@ -42,6 +43,7 @@ def input_i ():
     text = text.lower()
     return text
 
+#Главная логика (распределение задач по функциям)
 def name_removing (text):
     text = input_i ()
     for i in range(len(names)):
