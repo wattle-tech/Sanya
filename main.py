@@ -4,13 +4,18 @@ from thefuzz import process
 import torch
 import sounddevice as sd
 import time
+import configparser
 
 
 #основные (статичные) переменные
+config = configparser.ConfigParser()
+config.sections()
+config.read("settings.ini")
 names = ["саша", "саня", "александр", "санёк"]
 times = ["сколько время?", "который час?", "сколько времени"]
 translate = ["переведи", "перевод"]
-list = []
+
+
 
 #Модель голоса
 language = 'ru'
@@ -54,7 +59,6 @@ def name_removing (text):
 
 #Главная логика (распределение задач по функциям)
 def processing ():
-    coef = 0
     text = input_i()
 
     #time
