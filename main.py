@@ -24,11 +24,15 @@ sample_rate = 48000
 speaker = 'eugene' #aidar, baya, kseniya, xenia, eugene, random
 device = torch.device('cpu') # gpu or cpu
 
-model, example_text = torch.hub.load(repo_or_dir='snakers4/silero-models',
-                                     model='silero_tts',
-                                     language=language,
-                                     speaker=model_id)
-model.to(device)  # gpu or cpu
+
+model, null = torch.hub.load(repo_or_dir='snakers4/silero-models',
+                                    model='silero_tts',
+                                    language=language,
+                                    speaker=model_id)
+model.to(device)
+
+
+
 
 
 def play(text: str):
@@ -42,14 +46,17 @@ def play(text: str):
     time.sleep((len(audio) / sample_rate) + 0.5) #Ждёт столько сколько, идёт аудио
     sd.stop() #Останавливает воспроизведение
 
+
+play("гиги за шаги")
+
 #На выходе должен выдовать стринговую переменную, для дальнейшего использования
-def input_i ():
+def input_i():
     text = str(input())
     text = text.lower()
     return text
 
 #Главная логика (распределение задач по функциям)
-def name_removing (text):
+def recognize(text):
     text = input_i ()
     for i in range(len(names)):
         if text.startswith(names[i]):
@@ -58,6 +65,7 @@ def name_removing (text):
 
 
 #Главная логика (распределение задач по функциям)
+
 def processing ():
     text = input_i()
 
@@ -88,8 +96,8 @@ def processing ():
         play ("Вы хотите поговорить")
 
 #commands
-def time_1 ():
+def time_1():
     pass
 
 while True:
-    processing ()
+    recognize()
