@@ -30,17 +30,12 @@ model, null = torch.hub.load(repo_or_dir='snakers4/silero-models',
 model.to(device)
 
 
-
 def speech_recognition() -> str:
     with sr.Microphone() as source:
         audio = recognizer.listen(source)
         ready = recognizer.recognize_google_cloud(audio_data=audio)
         print(ready)
         return ready
-
-
-
-
 
 
 def play(text: str):
