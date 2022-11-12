@@ -1,8 +1,9 @@
 #Импорты
 from thefuzz import fuzz
 from thefuzz import process
-import torch
 import sounddevice as sd
+import speech_recognition as sr
+import torch
 import time
 import configparser
 
@@ -23,6 +24,7 @@ model_id = 'v3_1_ru'
 sample_rate = 48000
 speaker = 'eugene' #aidar, baya, kseniya, xenia, eugene, random
 device = torch.device('cpu') # gpu or cpu
+recognizer = sr.Recognizer()
 
 
 model, null = torch.hub.load(repo_or_dir='snakers4/silero-models',
@@ -30,6 +32,16 @@ model, null = torch.hub.load(repo_or_dir='snakers4/silero-models',
                                     language=language,
                                     speaker=model_id)
 model.to(device)
+
+
+
+def speech_recognition() -> str:
+    with sr.Microphone() as source:
+        audio = recognizer.listen(source)
+        ready = recognizer.recognize_google_cloud(audio_data=audio)
+        print(ready)
+        return ready
+
 
 
 
