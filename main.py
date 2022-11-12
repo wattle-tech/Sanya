@@ -79,7 +79,7 @@ def recognize(text):
 #Главная логика (распределение задач по функциям)
 
 def processing ():
-    text = input_i()
+    text = recognize(input_i())
 
     #time
     now_t = 0
@@ -112,4 +112,4 @@ def time_1():
     pass
 
 while True:
-    recognize()
+    processing()
