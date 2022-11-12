@@ -5,13 +5,9 @@ import sounddevice as sd
 import speech_recognition as sr
 import torch
 import time
-import configparser
 
 
 #основные (статичные) переменные
-config = configparser.ConfigParser()
-config.sections()
-config.read("settings.ini")
 names = ["саша", "саня", "александр", "санёк"]
 times = ["сколько время?", "который час?", "сколько времени"]
 translate = ["переведи", "перевод"]
