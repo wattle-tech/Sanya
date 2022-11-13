@@ -47,7 +47,7 @@ def play(text: str):
 
 
 #На выходе должен выдовать стринговую переменную, для дальнейшего использования
-def input_i(speech):
+def input_i():
     text = input()
     text = text.lower()
     return text
@@ -85,6 +85,8 @@ def processing ():
             max_tr = now_tr
         if max_tr < 60:
             max_tr = 0
+
+    #вывод
     if max_t > max_tr:
         play("Вы спросили про время")
     elif max_tr > max_t:
@@ -97,5 +99,4 @@ def time_1():
     pass
 
 while True:
-    srr = speech_recognition()
-    input_i(srr)
+    processing()
