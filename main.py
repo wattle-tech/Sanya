@@ -53,14 +53,14 @@ def play(text: str):
 play("гиги за шаги")
 
 #На выходе должен выдовать стринговую переменную, для дальнейшего использования
-def input_i():
-    text = str(input())
+def input_i(speech):
+    text = str(speech)
     text = text.lower()
     return text
 
 #Главная логика (распределение задач по функциям)
 def recognize(text):
-    text = input_i ()
+    text = input_i()
     for i in range(len(names)):
         if text.startswith(names[i]):
             text = text.replace(names[1], "")
@@ -103,4 +103,5 @@ def time_1():
     pass
 
 while True:
-    processing()
+    srr = speech_recognition()
+    input_i(srr)
