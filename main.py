@@ -11,6 +11,7 @@ import time
 names = ["саша", "саня", "александр", "санёк"]
 times = ["сколько время", "который час", "сколько времени"]
 translate = ["переведи", "перевод"]
+weather = ["какая погода", "что одеть на улицу", "какая температура", "сколько градусов"]
 
 
 
@@ -20,7 +21,7 @@ model_id = 'v3_1_ru'
 sample_rate = 48000
 speaker = 'eugene' #aidar, baya, kseniya, xenia, eugene, random
 device = torch.device('cpu') # gpu or cpu
-recognizer = sr.Recognizer()
+#recognizer = sr.Recognizer()
 
 
 model, null = torch.hub.load(repo_or_dir='snakers4/silero-models',
@@ -68,7 +69,7 @@ def processing ():
 
     #time
     now_t = 0
-    max_t = 0 #максимальные совпадения по категории перевода
+    max_t = 0 #максимальные совпадения по категории времени
     for x in range(len(times)):
         now_t = fuzz.ratio(text, times[x]) #сравнение
         if now_t > max_t:
@@ -86,16 +87,34 @@ def processing ():
         if max_tr < 60:
             max_tr = 0
 
+    #weather
+    now_w = 0
+    max_w = 0 #максимальные совпадения по категории погоды
+    for p in range(len(translate)):
+        now_w = fuzz.ratio(text, weather[p]) #сравнение
+        if now_w > max_w:
+            max_w = now_w
+        if max_w < 60:
+            max_w = 0
+
     #вывод
     if max_t > max_tr:
-        play("Вы спросили про время")
+        time_f()
     elif max_tr > max_t:
-        play("Вы спросили по перевод")
+        translate_f()
+    elif max_w > max_t & max_tr:
+        weather_f()
     else:
         play ("Вы хотите поговорить")
 
 #commands
-def time_1():
+def time_f():
+    pass
+
+def translate_f():
+    pass
+
+def weather_f():
     pass
 
 while True:
