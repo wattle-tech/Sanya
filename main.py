@@ -2,7 +2,7 @@
 from thefuzz import fuzz
 from thefuzz import process
 import sounddevice as sd
-import speech_recognition as sr
+#import speech_recognition as sr
 import torch
 import time
 
@@ -30,13 +30,8 @@ model, null = torch.hub.load(repo_or_dir='snakers4/silero-models',
 model.to(device)
 
 
-def speech_recognition() -> str:
-    with sr.Microphone() as source:
-        audio = recognizer.listen(source)
-        ready = recognizer.recognize_google_cloud(audio_data=audio)
-        print(ready)
-        return ready
-
+def speech_recognition():
+    pass
 
 def play(text: str):
     audio = model.apply_tts(text=text,
@@ -48,13 +43,12 @@ def play(text: str):
     sd.play(audio, sample_rate * 1.05) #Воспроизводим
     time.sleep((len(audio) / sample_rate) + 0.5) #Ждёт столько сколько, идёт аудио
     sd.stop() #Останавливает воспроизведение
+    print(text)
 
-
-play("гиги за шаги")
 
 #На выходе должен выдовать стринговую переменную, для дальнейшего использования
 def input_i(speech):
-    text = str(speech)
+    text = input()
     text = text.lower()
     return text
 
