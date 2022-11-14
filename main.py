@@ -53,19 +53,10 @@ def input_i():
     text = text.lower()
     return text
 
-#Главная логика (распределение задач по функциям)
-def recognize(text):
-    text = input_i()
-    for i in range(len(names)):
-        if text.startswith(names[i]):
-            text = text.replace(names[1], "")
-            return text
-
 
 #Главная логика (распределение задач по функциям)
-
 def processing ():
-    text = recognize(input_i())
+    text = input_i()
 
     #time
     now_t = 0
@@ -105,17 +96,17 @@ def processing ():
     elif max_w > max_t & max_tr:
         weather_f()
     else:
-        play ("Вы хотите поговорить")
+        print ("Вы хотите поговорить")
 
 #commands
 def time_f():
-    pass
+    print("time")
 
 def translate_f():
-    pass
+    print("translate")
 
 def weather_f():
-    pass
+    print("weather")
 
 while True:
     processing()
