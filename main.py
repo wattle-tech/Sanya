@@ -112,5 +112,4 @@ def weather_f():
     print("weather")
 
 while True:
-    time_f()
     processing()
