@@ -1,4 +1,6 @@
 #Импорты
+from api import num2text as n2t
+from api import recognize as rc
 from thefuzz import fuzz
 from thefuzz import process
 import sounddevice as sd
@@ -6,7 +8,7 @@ import sounddevice as sd
 import torch
 import time
 import datetime
-from api import num2text as n2t
+
 
 #основные (статичные) переменные
 names = ["саша", "саня", "александр", "санёк"]
