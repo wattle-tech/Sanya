@@ -5,7 +5,8 @@ import sounddevice as sd
 #import speech_recognition as sr
 import torch
 import time
-
+import datetime
+import num2text as n2t
 
 #основные (статичные) переменные
 names = ["саша", "саня", "александр", "санёк"]
@@ -100,7 +101,9 @@ def processing ():
 
 #commands
 def time_f():
-    print("time")
+    now = datetime.datetime.now()
+    text = f"Сейчас {n2t.int_to_ru(now.hour)} {n2t.int_to_ru(now.minute)}"
+    play(text)
 
 def translate_f():
     print("translate")
@@ -109,4 +112,5 @@ def weather_f():
     print("weather")
 
 while True:
+    time_f()
     processing()
