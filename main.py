@@ -6,7 +6,7 @@ import sounddevice as sd
 import torch
 import time
 import datetime
-import num2text as n2t
+from api import num2text as n2t
 
 #основные (статичные) переменные
 names = ["саша", "саня", "александр", "санёк"]
