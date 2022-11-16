@@ -4,7 +4,6 @@ from api import recognize as rc
 from thefuzz import fuzz
 from thefuzz import process
 import sounddevice as sd
-#import speech_recognition as sr
 import torch
 import time
 import datetime
@@ -24,8 +23,6 @@ model_id = 'v3_1_ru'
 sample_rate = 48000
 speaker = 'eugene' #aidar, baya, kseniya, xenia, eugene, random
 device = torch.device('cpu') # gpu or cpu
-#recognizer = sr.Recognizer()
-
 
 model, null = torch.hub.load(repo_or_dir='snakers4/silero-models',
                                     model='silero_tts',
