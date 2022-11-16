@@ -13,7 +13,7 @@ import datetime
 #основные (статичные) переменные
 names = ["саша", "саня", "александр", "санёк"]
 times = ["сколько время", "который час", "сколько времени"]
-translate = ["переведи", "перевод"]
+translate_list = ["переведи", "перевод"]
 translated = ["переведи диалог", "перевод диалога", "функция диалогового перевода", "функция перевода диалога"]
 weather = ["какая погода", "что одеть на улицу", "какая температура", "сколько градусов"]
 
@@ -74,7 +74,7 @@ def processing ():
     #translate
     now_tr = 0
     max_tr = 0 #максимальные совпадения по категории перевода
-    for z in range(len(translate)):
+    for z in range(len(translate_list)):
         now_tr = fuzz.ratio(text, translate[z]) #сравнение
         if now_tr > max_tr:
             max_tr = now_tr
