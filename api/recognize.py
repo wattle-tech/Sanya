@@ -3,7 +3,6 @@ import pyaudio
 
 def recognition ():
     r = sr.Recognizer()
-
     try:
         with sr.Microphone() as mic:
             r.adjust_for_ambient_noise(source=mic)
@@ -14,5 +13,3 @@ def recognition ():
         pass
     except sr.RequestError:
         pass
-
-recognition()
