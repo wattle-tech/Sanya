@@ -14,6 +14,7 @@ import datetime
 names = ["саша", "саня", "александр", "санёк"]
 times = ["сколько время", "который час", "сколько времени"]
 translate = ["переведи", "перевод"]
+translated = ["переведи диалог", "перевод диалога", "функция диалогового перевода", "функция перевода диалога"]
 weather = ["какая погода", "что одеть на улицу", "какая температура", "сколько градусов"]
 
 
@@ -83,12 +84,22 @@ def processing ():
     #weather
     now_w = 0
     max_w = 0 #максимальные совпадения по категории погоды
-    for p in range(len(translate)):
+    for p in range(len(weather)):
         now_w = fuzz.ratio(text, weather[p]) #сравнение
         if now_w > max_w:
             max_w = now_w
         if max_w < 60:
             max_w = 0
+    
+    #weather
+    now_trd = 0
+    max_trd = 0 #максимальные совпадения по категории погоды
+    for u in range(len(translated)):
+        now_trd = fuzz.ratio(text, translated[u]) #сравнение
+        if now_trd > max_trd:
+            max_trd = now_trd
+        if max_trd < 60:
+            max_trd = 0
 
     #вывод
     if max_t > max_tr:
@@ -110,6 +121,9 @@ def translate_f(text: str):
     tr = translate.translate(text)
     print(tr)
     return tr
+
+def translate_df(text: str):
+    play("Извините, но данная функция не доступна. Попробуйте обновить клиент и повторить попытку позже!")
 
 def weather_f():
     print("weather")
