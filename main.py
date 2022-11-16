@@ -72,16 +72,27 @@ def processing ():
         if max_t < 60:
             max_t = 0 
     
+    #dialog translate
+    now_trd = 0
+    max_trd = 0 #максимальные совпадения по категории погоды
+    for u in range(len(translated)):
+        now_trd = fuzz.ratio(text, translated[u]) #сравнение
+        if now_trd > max_trd:
+            max_trd = now_trd
+        if max_trd < 60:
+            max_trd = 0
+
     #translate
-    now_tr = 0
     max_tr = 0 #максимальные совпадения по категории перевода
     for z in range(len(translate_list)):
-        now_tr = fuzz.ratio(text, translate_list[z]) #сравнение
-        if now_tr > max_tr:
-            max_tr = now_tr
-        if max_tr < 60:
-            max_tr = 0
-
+        if translate_list[z] in text:
+            if max_trd < 90:
+                max_tr = 100
+            elif max_trd > 90:
+                max_tr = 0
+        else:
+            pass
+    
     #weather
     now_w = 0
     max_w = 0 #максимальные совпадения по категории погоды
@@ -92,33 +103,28 @@ def processing ():
         if max_w < 60:
             max_w = 0
     
-    #weather
-    now_trd = 0
-    max_trd = 0 #максимальные совпадения по категории погоды
-    for u in range(len(translated)):
-        now_trd = fuzz.ratio(text, translated[u]) #сравнение
-        if now_trd > max_trd:
-            max_trd = now_trd
-        if max_trd < 60:
-            max_trd = 0
-
     #вывод
     if max_t > max_tr:
-        time_f(text)
+        time_f()
     elif max_tr > max_t:
-        translate_f()
+        translate_f(text)
+    
     elif max_w > max_t & max_tr:
         weather_f()
+    
     elif max_trd > max_t & max_tr & max_w:
         translate_df()
+
     else:
         print ("Вы хотите поговорить")
+
 
 #commands
 def time_f():
     now = datetime.datetime.now()
     text = f"Сейчас {n2t.int_to_ru(now.hour)} {n2t.int_to_ru(now.minute)}"
     play(text)
+
 
 def translate_f(text: str):
     for i in range(len(translate_list)):
@@ -127,11 +133,14 @@ def translate_f(text: str):
     print(tr)
     return tr
 
-def translate_df(text: str):
-    play("Извините, но данная функция не доступна. Попробуйте обновить клиент и повторить попытку позже!")
+
+def translate_df():
+    play("Извините, но данная функция сейчас находится в разработке. Попробуйте обновить клиент и повторить попытку.")
+
 
 def weather_f():
     print("weather")
+
 
 play ("Привет, меня зовут Саня. Так как я ещё нахожусь на стадии разработки я могу быть немного туповат, и иногда путаться в человеческих желаниях. Не обижайтесь")
 
