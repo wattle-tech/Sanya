@@ -15,6 +15,7 @@ names = ["саша", "саня", "александр", "санёк"]
 times = ["сколько время", "который час", "сколько времени"]
 translate_list = ["переведи", "перевод"]
 translated = ["переведи диалог", "перевод диалога", "функция диалогового перевода", "функция перевода диалога"]
+rubbish_tr = ["перевод", "переведи"]
 weather = ["какая погода", "что одеть на улицу", "какая температура", "сколько градусов"]
 
 
@@ -75,7 +76,7 @@ def processing ():
     now_tr = 0
     max_tr = 0 #максимальные совпадения по категории перевода
     for z in range(len(translate_list)):
-        now_tr = fuzz.ratio(text, translate[z]) #сравнение
+        now_tr = fuzz.ratio(text, translate_list[z]) #сравнение
         if now_tr > max_tr:
             max_tr = now_tr
         if max_tr < 60:
@@ -103,11 +104,13 @@ def processing ():
 
     #вывод
     if max_t > max_tr:
-        time_f()
+        time_f(text)
     elif max_tr > max_t:
         translate_f()
     elif max_w > max_t & max_tr:
         weather_f()
+    elif max_trd > max_t & max_tr & max_w:
+        translate_df()
     else:
         print ("Вы хотите поговорить")
 
@@ -118,6 +121,8 @@ def time_f():
     play(text)
 
 def translate_f(text: str):
+    for i in range(len(translate_list)):
+        text = text.replace(translate_list[i], '')
     tr = translate.translate(text)
     print(tr)
     return tr
@@ -127,6 +132,8 @@ def translate_df(text: str):
 
 def weather_f():
     print("weather")
+
+play ("Привет, меня зовут Саня. Так как я ещё нахожусь на стадии разработки я могу быть немного туповат, и иногда путаться в человеческих желаниях. Не обижайтесь")
 
 while True:
     processing()
