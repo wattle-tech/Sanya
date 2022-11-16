@@ -57,62 +57,81 @@ def input_i():
     text = text.lower()
     return text
 
+def startingwithname(var: bool):
+    text = input_i()
+    for i in range(len(names)):
+        if var == True:
+            if text.startswith(str(names[i])):
+                text = text.replace(names[i], '')
+                print ("replaced")
+                return text
+        else:
+            if text.startswith(str(names[i])):
+                print("True")
+                return True
+    print("false")
+    return False
+                
+
 
 #Главная логика (распределение задач по функциям)
 def processing():
-    text = input_i()
+    if startingwithname(False) == True:
+        text = startingwithname(True)
 
-    #time
-    now_t = 0
-    max_t = 0 #максимальные совпадения по категории времени
-    for x in range(len(times)):
-        now_t = fuzz.ratio(text, times[x]) #сравнение
-        if now_t > max_t:
-            max_t = now_t
-        if max_t < 60:
-            max_t = 0 
+        #time
+        now_t = 0
+        max_t = 0 #максимальные совпадения по категории времени
+        for x in range(len(times)):
+            now_t = fuzz.ratio(text, times[x]) #сравнение
+            if now_t > max_t:
+                max_t = now_t
+            if max_t < 60:
+                max_t = 0 
     
-    #translate
-    now_tr = 0
-    max_tr = 0 #максимальные совпадения по категории перевода
-    for z in range(len(translate_list)):
-        now_tr = fuzz.ratio(text, translate_list[z]) #сравнение
-        if now_tr > max_tr:
-            max_tr = now_tr
-        if max_tr < 60:
-            max_tr = 0
+        #translate
+        now_tr = 0
+        max_tr = 0 #максимальные совпадения по категории перевода
+        for z in range(len(translate_list)):
+            now_tr = fuzz.ratio(text, translate_list[z]) #сравнение
+            if now_tr > max_tr:
+                max_tr = now_tr
+            if max_tr < 60:
+                max_tr = 0
 
-    #weather
-    now_w = 0
-    max_w = 0 #максимальные совпадения по категории погоды
-    for p in range(len(weather)):
-        now_w = fuzz.ratio(text, weather[p]) #сравнение
-        if now_w > max_w:
-            max_w = now_w
-        if max_w < 60:
-            max_w = 0
+        #weather
+        now_w = 0
+        max_w = 0 #максимальные совпадения по категории погоды
+        for p in range(len(weather)):
+            now_w = fuzz.ratio(text, weather[p]) #сравнение
+            if now_w > max_w:
+             max_w = now_w
+            if max_w < 60:
+             max_w = 0
     
-    #weather
-    now_trd = 0
-    max_trd = 0 #максимальные совпадения по категории погоды
-    for u in range(len(translated)):
-        now_trd = fuzz.ratio(text, translated[u]) #сравнение
-        if now_trd > max_trd:
-            max_trd = now_trd
-        if max_trd < 60:
-            max_trd = 0
+        #weather
+        now_trd = 0
+        max_trd = 0 #максимальные совпадения по категории погоды
+        for u in range(len(translated)):
+            now_trd = fuzz.ratio(text, translated[u]) #сравнение
+            if now_trd > max_trd:
+                max_trd = now_trd
+            if max_trd < 60:
+                max_trd = 0
 
-    #вывод
-    if max_t > max_tr:
-        time_f(text)
-    elif max_tr > max_t:
-        translate_f()
-    elif max_w > max_t & max_tr:
-        weather_f()
-    elif max_trd > max_t & max_tr & max_w:
-        translate_df()
+        #вывод
+        if max_t > max_tr:
+            time_f(text)
+        elif max_tr > max_t:
+            translate_f()
+        elif max_w > max_t & max_tr:
+            weather_f()
+        elif max_trd > max_t & max_tr & max_w:
+            translate_df()
+        else:
+            print ("Вы хотите поговорить")
     else:
-        print ("Вы хотите поговорить")
+        pass
 
 #commands
 def time_f():
