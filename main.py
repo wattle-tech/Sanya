@@ -4,6 +4,7 @@ from api import recognize as rc
 from thefuzz import fuzz
 from thefuzz import process
 import sounddevice as sd
+from translate import Translator
 import torch
 import time
 import datetime
@@ -23,6 +24,7 @@ model_id = 'v3_1_ru'
 sample_rate = 48000
 speaker = 'eugene' #aidar, baya, kseniya, xenia, eugene, random
 device = torch.device('cpu') # gpu or cpu
+translate = Translator(from_lang="en", to_lang="ru")
 
 model, null = torch.hub.load(repo_or_dir='snakers4/silero-models',
                                     model='silero_tts',
@@ -104,8 +106,10 @@ def time_f():
     text = f"Сейчас {n2t.int_to_ru(now.hour)} {n2t.int_to_ru(now.minute)}"
     play(text)
 
-def translate_f():
-    print("translate")
+def translate_f(text: str):
+    tr = translate.translate(text)
+    print(tr)
+    return tr
 
 def weather_f():
     print("weather")
