@@ -61,6 +61,7 @@ def input_i():
 
 def startingwithname():
     text = input_i()
+    print(text)
     for i in range(len(names)):
             if text.startswith(str(names[i])):
                 print("+" + text)
@@ -136,7 +137,7 @@ def translate_f(text: str):
     print(tr)
     return tr
 
-def translate_df(text: str):
+def translate_df():
     play("Извините, но данная функция не доступна. Попробуйте обновить клиент и повторить попытку позже!")
 
 def weather_f():
@@ -152,7 +153,7 @@ def parse_clock_names():
     for i in l:
         print(i[0])
 
-play("Привет, меня зовут Саня. Так как я ещё нахожусь на стадии разработки я могу быть немного туповат. Не обижайтесь")
+#play("Привет, меня зовут Саня. Так как я ещё нахожусь на стадии разработки я могу быть немного туповат. Не обижайтесь")
 
 
 
