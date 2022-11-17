@@ -41,6 +41,7 @@ def speech_recognition():
     pass
 
 def play(text: str):
+    print("- " + text)
     audio = model.apply_tts(text=text,
                             speaker=speaker,
                             sample_rate=sample_rate,
@@ -50,7 +51,6 @@ def play(text: str):
     sd.play(audio, sample_rate * 1.05) #Воспроизводим
     time.sleep((len(audio) / sample_rate) + 0.5) #Ждёт столько сколько, идёт аудио
     sd.stop() #Останавливает воспроизведение
-    print(text)
 
 
 #На выходе должен выдовать стринговую переменную, для дальнейшего использования
@@ -63,7 +63,7 @@ def startingwithname():
     text = input_i()
     for i in range(len(names)):
             if text.startswith(str(names[i])):
-                print("+" + text)
+                print("- " + text)
                 text = text.replace(names[i], '')
                 processing(text)
                 
@@ -71,57 +71,58 @@ def startingwithname():
 
 #Главная логика (распределение задач по функциям)
 def processing(text):
-        #time
-        now_t = 0
-        max_t = 0 #максимальные совпадения по категории времени
-        for x in range(len(times)):
-            now_t = fuzz.ratio(text, times[x]) #сравнение
-            if now_t > max_t:
-                max_t = now_t
-            if max_t < 60:
-                max_t = 0 
+    #time
+    now_t = 0
+    max_t = 0 #максимальные совпадения по категории времени
+    for x in range(len(times)):
+        now_t = fuzz.ratio(text, times[x]) #сравнение
+        if now_t > max_t:
+            max_t = now_t
+        if max_t < 60:
+            max_t = 0 
     
-        #translate
-        now_tr = 0
-        max_tr = 0 #максимальные совпадения по категории перевода
-        for z in range(len(translate_list)):
-            now_tr = fuzz.ratio(text, translate_list[z]) #сравнение
-            if now_tr > max_tr:
-                max_tr = now_tr
-            if max_tr < 60:
-                max_tr = 0
+    #translate
+    now_tr = 0
+    max_tr = 0 #максимальные совпадения по категории перевода
+    for z in range(len(translate_list)):
+        now_tr = fuzz.ratio(text, translate_list[z]) #сравнение
+        if now_tr > max_tr:
+            max_tr = now_tr
+        if max_tr < 60:
+            max_tr = 0
 
         #weather
-        now_w = 0
-        max_w = 0 #максимальные совпадения по категории погоды
-        for p in range(len(weather)):
-            now_w = fuzz.ratio(text, weather[p]) #сравнение
-            if now_w > max_w:
-             max_w = now_w
-            if max_w < 60:
-             max_w = 0
+    now_w = 0
+    max_w = 0 #максимальные совпадения по категории погоды
+    for p in range(len(weather)):
+        now_w = fuzz.ratio(text, weather[p]) #сравнение
+        if now_w > max_w:
+            max_w = now_w
+        if max_w < 60:
+            max_w = 0
     
-        #weather
-        now_trd = 0
-        max_trd = 0 #максимальные совпадения по категории погоды
-        for u in range(len(translated)):
-            now_trd = fuzz.ratio(text, translated[u]) #сравнение
-            if now_trd > max_trd:
-                max_trd = now_trd
-            if max_trd < 60:
-                max_trd = 0
+    #weather
+    now_trd = 0
+    max_trd = 0 #максимальные совпадения по категории погоды
+    for u in range(len(translated)):
+        now_trd = fuzz.ratio(text, translated[u]) #сравнение
+        if now_trd > max_trd:
+            max_trd = now_trd
+        if max_trd < 60:
+            max_trd = 0
 
-        #вывод
-        if max_t > max_tr:
-            time_f()
-        elif max_tr > max_t:
-            translate_f()
-        elif max_w > max_t & max_tr:
-            weather_f()
-        elif max_trd > max_t & max_tr & max_w:
-            translate_df()
-        else:
-            print ("Вы хотите поговорить")
+    #вывод
+    if max_t > max_tr:
+        time_f()
+    elif max_tr > max_t:
+        translate_f(text)
+    elif max_w > max_t & max_tr:
+        weather_f()
+    elif max_trd > max_t & max_tr & max_w:
+        translate_df()
+    else:
+        print ("Вы хотите поговорить")
+
 
 #commands
 def time_f():
@@ -136,11 +137,11 @@ def translate_f(text: str):
     print(tr)
     return tr
 
-def translate_df(text: str):
+def translate_df():
     play("Извините, но данная функция не доступна. Попробуйте обновить клиент и повторить попытку позже!")
 
 def weather_f():
-    print("weather")
+    play("Извините, но данная функция не доступна. Попробуйте обновить клиент и повторить попытку позже!")
 
 
 def add_alarm_clock():
