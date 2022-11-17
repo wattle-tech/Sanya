@@ -1,6 +1,7 @@
 #Импорты
 from api import num2text as n2t
 from api import recognize as rc
+from api import db
 from thefuzz import fuzz
 from thefuzz import process
 import sounddevice as sd
@@ -27,6 +28,7 @@ sample_rate = 48000
 speaker = 'eugene' #aidar, baya, kseniya, xenia, eugene, random
 device = torch.device('cpu') # gpu or cpu
 translate = Translator(from_lang="en", to_lang="ru")
+clock = db.AlarmClock()
 
 model, null = torch.hub.load(repo_or_dir='snakers4/silero-models',
                                     model='silero_tts',
@@ -152,7 +154,21 @@ def translate_df(text: str):
 def weather_f():
     print("weather")
 
+
+def add_alarm_clock():
+    clock.add("School", 1664200798)
+    play("Будильник добавлен")
+
+def parse_clock_names():
+    l = clock.get_clocks()
+    for i in l:
+        print(i[0])
+
+add_alarm_clock()
+parse_clock_names()
+
 play("Привет, меня зовут Саня. Так как я ещё нахожусь на стадии разработки я могу быть немного туповат. Не обижайтесь")
+
 
 
 while True:
