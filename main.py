@@ -156,11 +156,11 @@ def weather_f():
 
 
 def add_alarm_clock():
-    clock.add("School", 1664200798)
+    clock.add("School", 1664200798) #создаём будильник 
     play("Будильник добавлен")
 
 def parse_clock_names():
-    l = clock.get_clocks()
+    l = clock.get_clocks() 
     for i in l:
         print(i[0])
 
