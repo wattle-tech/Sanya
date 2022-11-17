@@ -1,7 +1,7 @@
 import speech_recognition as sr
 import pyaudio
 
-def recognition ():
+def recognition():
     r = sr.Recognizer()
     try:
         with sr.Microphone() as mic:
