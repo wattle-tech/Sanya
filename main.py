@@ -60,7 +60,7 @@ def input_i():
 def startingwithname(var: bool):
     text = input_i()
     for i in range(len(names)):
-        if var == True:
+        if var is True:
             if text.startswith(str(names[i])):
                 text = text.replace(names[i], '')
                 print ("replaced")
