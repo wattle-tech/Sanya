@@ -61,6 +61,7 @@ def input_i():
 
 def startingwithname():
     text = input_i()
+    print(text)
     for i in range(len(names)):
             if text.startswith(str(names[i])):
                 print("- " + text)
