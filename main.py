@@ -55,32 +55,22 @@ def play(text: str):
 
 #На выходе должен выдовать стринговую переменную, для дальнейшего использования
 def input_i():
-    text = input()
+    text = str(rc.recognition())
     text = text.lower()
-    return text
+    return str(text)
 
-def startingwithname(var: bool):
+def startingwithname():
     text = input_i()
     for i in range(len(names)):
-        if var is True:
             if text.startswith(str(names[i])):
+                print("+" + text)
                 text = text.replace(names[i], '')
-                print ("replaced")
-                return text
-        else:
-            if text.startswith(str(names[i])):
-                print("True")
-                return True
-    print("false")
-    return False
+                processing(text)
                 
 
 
 #Главная логика (распределение задач по функциям)
-def processing():
-    if startingwithname(False) == True:
-        text = startingwithname(True)
-
+def processing(text):
         #time
         now_t = 0
         max_t = 0 #максимальные совпадения по категории времени
@@ -123,7 +113,7 @@ def processing():
 
         #вывод
         if max_t > max_tr:
-            time_f(text)
+            time_f()
         elif max_tr > max_t:
             translate_f()
         elif max_w > max_t & max_tr:
@@ -132,8 +122,6 @@ def processing():
             translate_df()
         else:
             print ("Вы хотите поговорить")
-    else:
-        pass
 
 #commands
 def time_f():
@@ -164,12 +152,9 @@ def parse_clock_names():
     for i in l:
         print(i[0])
 
-add_alarm_clock()
-parse_clock_names()
-
 play("Привет, меня зовут Саня. Так как я ещё нахожусь на стадии разработки я могу быть немного туповат. Не обижайтесь")
 
 
 
 while True:
-    processing()
+    startingwithname()
