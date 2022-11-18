@@ -16,7 +16,3 @@ def recognition():
         pass
     except sr.RequestError:
         pass
-
-start()
-while True:
-    print("-" + recognition())
