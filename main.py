@@ -174,3 +174,4 @@ play("Привет, меня зовут Саня. Так как я ещё нах
 
 while True:
     startingwithname()
+
