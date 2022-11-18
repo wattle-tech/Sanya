@@ -116,8 +116,8 @@ def processing(text):
     #alarm clock
     now_al = 0
     max_al = 0 #максимальные совпадения по категории перевода
-    for a in range(len(translate_list)):
-        now_al = fuzz.ratio(text, translate_list[a]) #сравнение
+    for a in range(len(al_clock)):
+        now_al = fuzz.ratio(text, al_clock[a]) #сравнение
         if now_al > max_al:
             max_al = now_al
         if max_al < 60:
@@ -159,7 +159,7 @@ def weather_f():
 
 def add_alarm_clock(text: str):
     for i in range(len(al_clock)):
-        time = text.replace(translate_list[i], '')
+        time = text.replace(al_clock[i], '')
     clock.add("School", 1664200798) #создаём будильник 
     play("Будильник добавлен")
 
