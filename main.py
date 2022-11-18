@@ -135,7 +135,7 @@ def processing(text):
     elif max_al > max_trd & max_t & max_tr & max_w:
         add_alarm_clock(text)
     else:
-        print ("Вы хотите поговорить")
+        play("Вы хотите поговорить?")
 
 
 #commands
