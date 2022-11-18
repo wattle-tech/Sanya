@@ -135,8 +135,7 @@ def translate_f(text: str):
     for i in range(len(translate_list)):
         text = text.replace(translate_list[i], '')
     tr = translate.translate(text)
-    print(tr)
-    return tr
+    play(tr)
 
 def translate_df():
     play("Извините, но данная функция не доступна. Попробуйте обновить клиент и повторить попытку позже!")
