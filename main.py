@@ -18,6 +18,7 @@ translate_list = ["переведи", "перевод"]
 translated = ["переведи диалог", "перевод диалога", "функция диалогового перевода", "функция перевода диалога"]
 rubbish_tr = ["перевод", "переведи"]
 weather = ["какая погода", "что одеть на улицу", "какая температура", "сколько градусов"]
+al_clock = ["поставь будильник", "будильник", "новый будильник"]
 
 
 
@@ -111,6 +112,16 @@ def processing(text):
             max_trd = now_trd
         if max_trd < 60:
             max_trd = 0
+    
+    #alarm clock
+    now_al = 0
+    max_al = 0 #максимальные совпадения по категории перевода
+    for a in range(len(al_clock)):
+        now_al = fuzz.ratio(text, al_clock[a]) #сравнение
+        if now_al > max_al:
+            max_al = now_al
+        if max_al < 60:
+            max_al = 0
 
     #вывод
     if max_t > max_tr:
@@ -121,8 +132,10 @@ def processing(text):
         weather_f()
     elif max_trd > max_t & max_tr & max_w:
         translate_df()
+    elif max_al > max_trd & max_t & max_tr & max_w:
+        add_alarm_clock(text)
     else:
-        print ("Вы хотите поговорить")
+        play("Вы хотите поговорить?")
 
 
 #commands
@@ -135,8 +148,7 @@ def translate_f(text: str):
     for i in range(len(translate_list)):
         text = text.replace(translate_list[i], '')
     tr = translate.translate(text)
-    print(tr)
-    return tr
+    play(tr)
 
 def translate_df():
     play("Извините, но данная функция не доступна. Попробуйте обновить клиент и повторить попытку позже!")
@@ -145,7 +157,9 @@ def weather_f():
     play("Извините, но данная функция не доступна. Попробуйте обновить клиент и повторить попытку позже!")
 
 
-def add_alarm_clock():
+def add_alarm_clock(text: str):
+    for i in range(len(al_clock)):
+        time = text.replace(al_clock[i], '')
     clock.add("School", 1664200798) #создаём будильник 
     play("Будильник добавлен")
 
@@ -160,3 +174,5 @@ play("Привет, меня зовут Саня. Так как я ещё нах
 
 while True:
     startingwithname()
+
+
