@@ -82,6 +82,16 @@ def processing(text):
         if max_t < 60:
             max_t = 0 
     
+    #weather
+    now_trd = 0
+    max_trd = 0 #максимальные совпадения по категории погоды
+    for u in range(len(translated)):
+        now_trd = fuzz.ratio(text, translated[u]) #сравнение
+        if now_trd > max_trd:
+            max_trd = now_trd
+        if max_trd < 60:
+            max_trd = 0
+
     #translate
     now_tr = 0
     max_tr = 0 #максимальные совпадения по категории перевода
@@ -102,15 +112,7 @@ def processing(text):
         if max_w < 60:
             max_w = 0
     
-    #weather
-    now_trd = 0
-    max_trd = 0 #максимальные совпадения по категории погоды
-    for u in range(len(translated)):
-        now_trd = fuzz.ratio(text, translated[u]) #сравнение
-        if now_trd > max_trd:
-            max_trd = now_trd
-        if max_trd < 60:
-            max_trd = 0
+    
     
     #alarm clock
     now_al = 0
@@ -167,8 +169,7 @@ def parse_clock_names():
     for i in l:
         print(i[0])
 
-play("Привет, меня зовут Саня. Так как я ещё нахожусь на стадии разработки я могу быть немного туповат. Не обижайтесь")
-
+print("Sanya 2.0 in using")
 rc.start()
 
 while True:
