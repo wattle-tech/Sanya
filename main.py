@@ -178,12 +178,11 @@ def to_epoch(text: str):
     date = date_to_epoch(text)
     time = time_to_epoch(text)
     epoch = date + time
-    print(epoch)
+    print(f"{epoch} - {date} - {time}")
     return epoch
 
 
 def date_to_epoch(time: str):
-    mtime = time
     if time.startswith("завтра"):
         time = tommorow.strftime('%Y-%m-%d')
         date = datetime(int(time[0:4]), int(time[5:7]), int(time[8:10])).timestamp()
@@ -193,20 +192,22 @@ def date_to_epoch(time: str):
         time = two_days.strftime('%Y-%m-%d')
         date = datetime(int(time[0:4]), int(time[5:7]), int(time[8:10])).timestamp()
         return date
-    elif time.startswith("в") or time.startswith("сегодня"):
+    elif time.startswith("в"):
         time = today.strftime('%Y-%m-%d')
         date = datetime(int(time[0:4]), int(time[5:7]), int(time[8:10])).timestamp()
         return date
     else:
         play("Повторите, пожалуйста!")
         r = rc.recognition()
+        print(r)
         to_epoch(r)
 
 def time_to_epoch(time: str):
     for i in range(len(dates)):
             if time.startswith(str(dates[i])):
                 time = time.replace(dates[i], '')
-                hours = int(time[0:2]) * 60 * 60
+                hours = int(time[0:3]) * 60 * 60
+                print(time[4:6])
                 minute = int(time[4:6]) * 60
                 time = hours + minute
                 return time
@@ -238,5 +239,6 @@ rc.start()
 while True:
     startingwithname()
     cheak_clocks()
-    clock.start()
+    
+    
 

@@ -16,8 +16,8 @@ class AlarmClock: #создаём класс
 
     @classmethod
     def get_clocks(cls):
-        clocks = cr.execute("SELECT name FROM clock") #получаем все данные из столбца name
-        return clocks 
+        clocks = cr.execute("SELECT * FROM clock") #получаем все данные из столбца name
+        return clocks
     
     @classmethod
     def delete(cls, time):
