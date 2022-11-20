@@ -25,10 +25,9 @@ class AlarmClock: #создаём класс
         return db.commit()
     
     @classmethod
-    def start():
+    def start(cls):
         # for playing ph_intr.mp3 file
-        playsound.playsound('/data/sounds/ph_intr.mp3')
-        print('playing sound using  playsound')
+        playsound.playsound('./data/sounds/ph_intr.mp3')
         
 
 

@@ -229,4 +229,5 @@ rc.start()
 while True:
     startingwithname()
     cheak_clocks()
+    clock.start()
 
