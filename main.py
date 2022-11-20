@@ -2,7 +2,7 @@
 from api import num2text as n2t
 from api import recognize as rc
 from api import db
-from api import getgeo
+from api import geo
 from thefuzz import fuzz
 from thefuzz import process
 import sounddevice as sd
