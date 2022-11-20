@@ -18,6 +18,3 @@ def getcountry():
     #will load the json response into data
     #will print the data line by line
     print(data['country'])
-
-getcity()
-getcountry()
