@@ -1,5 +1,7 @@
 import sqlite3
 import time
+import playsound
+
 
 db = sqlite3.connect("./data/db.db")
 cr = db.cursor()
@@ -16,5 +18,17 @@ class AlarmClock: #создаём класс
     def get_clocks(cls):
         clocks = cr.execute("SELECT name FROM clock") #получаем все данные из столбца name
         return clocks 
+    
+    @classmethod
+    def delete(cls, time):
+        cr.execute("DELETE FROM clock WHERE time <= ?", [time])
+        return db.commit()
+    
+    @classmethod
+    def start():
+        # for playing ph_intr.mp3 file
+        playsound.playsound('/data/sounds/ph_intr.mp3')
+        print('playing sound using  playsound')
+        
 
 
