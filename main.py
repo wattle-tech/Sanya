@@ -13,8 +13,8 @@ import sounddevice as sd
 from translate import Translator
 import torch
 import time
-import datetime
-
+from datetime import datetime, timedelta
+from plyer import notification #Для взаимодействия с компом
 
 
 #основные (статичные) переменные
@@ -26,6 +26,11 @@ translate_list = ["переведи", "перевод", "перевод слов
 translated = ["переведи диалог", "перевод диалога", "функция диалогового перевода", "функция перевода диалога"]
 weather = ["какая погода", "что одеть на улицу", "какая температура", "сколько градусов"]
 al_clock = ["поставь будильник", "будильник", "новый будильник"]
+
+#переменные для будильника
+dates = ["завтра в", "завтра", "послезавтра", "в"]
+today = datetime.now()
+tommorow = today + timedelta(1)
 
 
 
@@ -66,7 +71,6 @@ def input_i():
     text = str(rc.recognition())
     text = text.lower()
     return str(text)
-
 
 def startingwithname():
     text = input_i()
@@ -142,7 +146,7 @@ def processing(text):
     elif max_trd > max_t & max_tr & max_w:
         translate_df()
     elif max_al > max_trd & max_t & max_tr & max_w:
-        add_alarm_clock(text)
+        add_alarm_clock()
     else:
         play("Вы хотите поговорить?")
 
@@ -168,19 +172,71 @@ def weather_f():
     merge = city + ',' + country_code
     play ("This function doesn't exist")
 
-def add_alarm_clock(text: str):
-    for i in range(len(al_clock)):
-        time = text.replace(al_clock[i], '')
-    clock.add("School", 1664200798) #создаём будильник 
+
+
+def to_epoch(text: str):
+    date = date_to_epoch(text)
+    time = time_to_epoch(text)
+    epoch = date + time
+    print(epoch)
+    return epoch
+
+
+def date_to_epoch(time: str):
+    mtime = time
+    if time.startswith("завтра"):
+        time = tommorow.strftime('%Y-%m-%d')
+        date = datetime(int(time[0:4]), int(time[5:7]), int(time[8:10])).timestamp()
+        return date
+    elif time.startswith("послезавтра"):
+        two_days = tommorow + timedelta(1)
+        time = two_days.strftime('%Y-%m-%d')
+        date = datetime(int(time[0:4]), int(time[5:7]), int(time[8:10])).timestamp()
+        return date
+    elif time.startswith("в") or time.startswith("сегодня"):
+        time = today.strftime('%Y-%m-%d')
+        date = datetime(int(time[0:4]), int(time[5:7]), int(time[8:10])).timestamp()
+        return date
+    else:
+        play("Повторите, пожалуйста!")
+        r = rc.recognition()
+        to_epoch(r)
+
+def time_to_epoch(time: str):
+    for i in range(len(dates)):
+            if time.startswith(str(dates[i])):
+                time = time.replace(dates[i], '')
+                hours = int(time[0:2]) * 60 * 60
+                minute = int(time[4:6]) * 60
+                time = hours + minute
+                return time
+                
+
+def cheak_clocks():
+    l = clock.get_clocks()
+    t = time.time() 
+    for i in l:
+        if i[2] <= t:
+            clock.delete(t)
+            clock.start() 
+        else:
+            pass
+                
+
+def add_alarm_clock():
+    play("Когда хотите, что бы прозвенел будильник?")
+    time = rc.recognition()
+    date = to_epoch(time)
+    clock.add("Будильник", date) #создаём будильник 
     play("Будильник добавлен")
 
-def parse_clock_names():
-    l = clock.get_clocks() 
-    for i in l:
-        print(i[0])
+
 
 print("Sanya 2.0 in using")
 rc.start()
 
 while True:
     startingwithname()
+    cheak_clocks()
+    clock.start()
+
