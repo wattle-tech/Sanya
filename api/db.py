@@ -27,7 +27,7 @@ class AlarmClock: #создаём класс
     @classmethod
     def start(cls):
         # for playing ph_intr.mp3 file
-        playsound.playsound('./data/sounds/ph_intr.mp3')
+        playsound.playsound('./data/sounds/clock.mp3')
         
 
 
