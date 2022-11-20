@@ -19,6 +19,7 @@ import datetime
 
 #основные (статичные) переменные
 config_dict = get_default_config()
+config_dict['language'] = 'ru'
 names = ["саша", "саня", "александр", "санёк"]
 times = ["сколько время", "который час", "сколько времени"]
 translate_list = ["переведи", "перевод", "перевод слова"]
@@ -65,6 +66,7 @@ def input_i():
     text = str(rc.recognition())
     text = text.lower()
     return str(text)
+
 
 def startingwithname():
     text = input_i()
@@ -161,7 +163,10 @@ def translate_df():
     play("Извините, но данная функция не доступна. Попробуйте обновить клиент и повторить попытку позже!")
 
 def weather_f():
-    city = geo.getcity()
+    city = str(geo.getcity())
+    country_code = str(geo.getcountry())
+    merge = city + ',' + country_code
+    play ("This function doesn't exist")
 
 def add_alarm_clock(text: str):
     for i in range(len(al_clock)):

@@ -8,7 +8,6 @@ def getcity():
     data = load(res)
     #will load the json response into data
     #will print the data line by line
-    print(data['city'])
 
 def getcountry():
     url = 'https://ipinfo.io/json'
@@ -17,4 +16,3 @@ def getcountry():
     data = load(res)
     #will load the json response into data
     #will print the data line by line
-    print(data['country'])
