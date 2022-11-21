@@ -170,7 +170,7 @@ def weather_f():
     city = str(geo.getcity())
     country_code = str(geo.getcountry())
     merge = city + ',' + country_code
-    play ("This function doesn't exist")
+    play ("Функция не найдена")
 
 
 
