@@ -169,19 +169,17 @@ def translate_df():
     play("Извините, но данная функция не доступна. Попробуйте обновить клиент и повторить попытку позже!")
 
 def weather_f():
-    try:
-        city = str(geo.getcity())
-        country_code = str(geo.getcountry())
-        merge = city + ',' + country_code
+    city = str(geo.getcity())
+    country_code = str(geo.getcountry())
+    merge = city + ',' + country_code
 
-        observation = mgr.weather_at_place(merge)
-        w = observation.weather()
+    observation = mgr.weather_at_place('Москва, RU')
+    w = observation.weather()
 
-        status = w.detailed_status
-        temperature = w.temperature('celsius')['temp']
-        comb = str("В вашем городе сейчас" + str(status) + " Температура составляет " + str(temperature))
-        print (comb)
-    except: play ('Упс, что то пошло не так!')
+    status = w.detailed_status
+    temperature = w.temperature('celsius')['temp']
+    comb = str("В вашем городе сейчас" + str(status) + " Температура составляет " + str(temperature))
+    print (comb)
 
 
 
