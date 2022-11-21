@@ -21,6 +21,8 @@ from plyer import notification #Для взаимодействия с комп�
 config_dict = get_default_config()
 owm = OWM("0ffeef161fa19695120a011826869e66")
 mgr = owm.weather_manager()
+config_dict['connection']['use_ssl'] = False
+config_dict['connection']["verify_ssl_certs"] = False
 config_dict['language'] = 'ru'
 names = ["саша", "саня", "александр", "санёк"]
 times = ["сколько время", "который час", "сколько времени"]
@@ -178,8 +180,8 @@ def weather_f():
 
     status = w.detailed_status
     temperature = w.temperature('celsius')['temp']
-    comb = str("В вашем городе сейчас" + str(status) + " Температура составляет " + str(temperature))
-    print (comb)
+    comb = str("В вашем городе сейчас " + str(status) + ". Температура составляет " + n2t.int_to_ru(round(temperature)) + " градусов цельсия")
+    play (comb)
 
 
 

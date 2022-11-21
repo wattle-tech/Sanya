@@ -37,6 +37,6 @@ def int_to_ru(num: int):
         if (num % b) == 0: return int_to_ru(num // b) + ' миллиард'
         else: return int_to_ru(num // b) + ' миллиард, ' + int_to_ru(num % b)
 
-    if (num % t == 0): return int_to_ru(num // t) + ' тралион'
+    if (num % t == 0): return int_to_ru(num // t) + ' трилион'
     else: 
-        return int_to_ru(num // t) + ' тралион, ' + int_to_ru(num % t)
+        return int_to_ru(num // t) + ' трилион, ' + int_to_ru(num % t)
