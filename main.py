@@ -19,6 +19,8 @@ from plyer import notification #Для взаимодействия с комп�
 
 #основные (статичные) переменные
 config_dict = get_default_config()
+owm = OWM('0ffeef161fa19695120a011826869e66')
+mgr = owm.weather_manager()
 config_dict['language'] = 'ru'
 names = ["саша", "саня", "александр", "санёк"]
 times = ["сколько время", "который час", "сколько времени"]
@@ -167,10 +169,19 @@ def translate_df():
     play("Извините, но данная функция не доступна. Попробуйте обновить клиент и повторить попытку позже!")
 
 def weather_f():
-    city = str(geo.getcity())
-    country_code = str(geo.getcountry())
-    merge = city + ',' + country_code
-    play ("Функция не найдена")
+    try:
+        city = str(geo.getcity())
+        country_code = str(geo.getcountry())
+        merge = city + ',' + country_code
+
+        observation = mgr.weather_at_place(merge)
+        w = observation.weather()
+
+        status = w.detailed_status
+        temperature = w.temperature('celsius')['temp']
+        comb = str("В вашем городе сейчас" + str(status) + " Температура составляет " + str(temperature))
+        print (comb)
+    except: play ('Упс, что то пошло не так!')
 
 
 
@@ -232,9 +243,8 @@ def add_alarm_clock():
     play("Будильник добавлен")
 
 
-
-print("Sanya 2.0 in using")
 rc.start()
+print("Sanya 2.0 in using")
 
 while True:
     starting_with_name()
