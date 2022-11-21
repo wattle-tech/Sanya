@@ -19,7 +19,7 @@ from plyer import notification #Для взаимодействия с комп�
 
 #основные (статичные) переменные
 config_dict = get_default_config()
-owm = OWM('0ffeef161fa19695120a011826869e66')
+owm = OWM("0ffeef161fa19695120a011826869e66")
 mgr = owm.weather_manager()
 config_dict['language'] = 'ru'
 names = ["саша", "саня", "александр", "санёк"]
@@ -173,7 +173,7 @@ def weather_f():
     country_code = str(geo.getcountry())
     merge = city + ',' + country_code
 
-    observation = mgr.weather_at_place('Москва, RU')
+    observation = mgr.weather_at_place(merge)
     w = observation.weather()
 
     status = w.detailed_status
