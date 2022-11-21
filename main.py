@@ -155,7 +155,7 @@ def processing(text):
 
 #commands
 def time_f():
-    now = datetime.datetime.now()
+    now = datetime.now()
     text = f"Сейчас {n2t.int_to_ru(now.hour)} {n2t.int_to_ru(now.minute)}"
     play(text)
 
@@ -218,7 +218,6 @@ def time_to_epoch(time: str): #Перевод времени в Unix Epoch
             if time.startswith(str(dates[i])):
                 time = time.replace(dates[i], '') #Обрубаем дату
                 hours = int(time[0:3]) * 60 * 60 #Получаем часы в секундах
-                print(time[4:6])
                 minute = int(time[4:6]) * 60 #Получаем минуты в секундах
                 time = hours + minute #Получаем всё врем в секундах
                 return time
