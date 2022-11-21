@@ -72,7 +72,7 @@ def input_i():
     text = text.lower()
     return str(text)
 
-def startingwithname():
+def starting_with_name():
     text = input_i()
     for i in range(len(names)):
             if text.startswith(str(names[i])):
@@ -174,18 +174,18 @@ def weather_f():
 
 
 
-def to_epoch(text: str):
-    date = date_to_epoch(text)
-    time = time_to_epoch(text)
-    epoch = date + time
-    print(f"{epoch} - {date} - {time}")
+def to_epoch(text: str): #Перевод строки в Unix Epoch
+    date = date_to_epoch(text) #см. ниже
+    time = time_to_epoch(text) #см. ниже
+    epoch = date + time #складываем дату и время
+    print(f"{epoch} - {date} - {time}") 
     return epoch
 
 
-def date_to_epoch(time: str):
+def date_to_epoch(time: str): #Перевод даты в Unix Epoch
     if time.startswith("завтра"):
-        time = tommorow.strftime('%Y-%m-%d')
-        date = datetime(int(time[0:4]), int(time[5:7]), int(time[8:10])).timestamp()
+        time = tommorow.strftime('%Y-%m-%d') #Переводи в формат гггг-мм-дд
+        date = datetime(int(time[0:4]), int(time[5:7]), int(time[8:10])).timestamp() #С помощью срезов переводим в unix Epoch
         return date
     elif time.startswith("послезавтра"):
         two_days = tommorow + timedelta(1)
@@ -202,24 +202,24 @@ def date_to_epoch(time: str):
         print(r)
         to_epoch(r)
 
-def time_to_epoch(time: str):
-    for i in range(len(dates)):
+def time_to_epoch(time: str): #Перевод времени в Unix Epoch
+    for i in range(len(dates)): 
             if time.startswith(str(dates[i])):
-                time = time.replace(dates[i], '')
-                hours = int(time[0:3]) * 60 * 60
+                time = time.replace(dates[i], '') #Обрубаем дату
+                hours = int(time[0:3]) * 60 * 60 #Получаем часы в секундах
                 print(time[4:6])
-                minute = int(time[4:6]) * 60
-                time = hours + minute
+                minute = int(time[4:6]) * 60 #Получаем минуты в секундах
+                time = hours + minute #Получаем всё врем в секундах
                 return time
                 
 
-def cheak_clocks():
-    l = clock.get_clocks()
-    t = time.time() 
+def check_clocks():
+    l = clock.get_clocks() #Получаем всё время
+    t = time.time() #Получаем Unix Epoch
     for i in l:
         if i[2] <= t:
-            clock.delete(t)
-            clock.start() 
+            clock.delete(t) #Удаляем будильник
+            clock.start()  #Воспроизводим звук
         else:
             pass
                 
@@ -237,8 +237,8 @@ print("Sanya 2.0 in using")
 rc.start()
 
 while True:
-    startingwithname()
-    cheak_clocks()
+    starting_with_name()
+    check_clocks()
     
     
 
