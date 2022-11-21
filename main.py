@@ -174,7 +174,7 @@ def weather_f():
     merge = city + ',' + country_code
 
     observation = mgr.weather_at_place(merge)
-    w = observation.weather()
+    w = observation.weather
 
     status = w.detailed_status
     temperature = w.temperature('celsius')['temp']
