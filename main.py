@@ -1,14 +1,10 @@
 #Импорты
 from pyowm import OWM 
-from pyowm.utils import config
-from pyowm.utils import timestamps
 from pyowm.utils.config import get_default_config
 from api import num2text as n2t
 from api import recognize as rc
-from api import db
-from api import geo
+from api import db, geo
 from thefuzz import fuzz
-from thefuzz import process
 import sounddevice as sd
 from translate import Translator
 import torch
@@ -30,6 +26,7 @@ translate_list = ["переведи", "перевод", "перевод слов
 translated = ["переведи диалог", "перевод диалога", "функция диалогового перевода", "функция перевода диалога"]
 weather = ["какая погода", "что одеть на улицу", "какая температура", "сколько градусов"]
 al_clock = ["поставь будильник", "будильник", "новый будильник"]
+timer = ["таймер", "поставь таймер"]
 
 #переменные для будильника
 dates = ["завтра в", "завтра", "послезавтра", "в"]
@@ -139,6 +136,16 @@ def processing(text):
             max_al = now_al
         if max_al < 60:
             max_al = 0
+    
+    #alarm clock
+    now_tm = 0
+    max_tm = 0 #максимальные совпадения по категории перевода
+    for tm in range(len(timer)):
+        now_tm = fuzz.ratio(text, timer[tm]) #сравнение
+        if now_tm > max_tm:
+            max_tm = now_tm
+        if max_tm < 60:
+            max_tm = 0
 
     #вывод
     if max_t > max_tr:
@@ -151,6 +158,8 @@ def processing(text):
         translate_df()
     elif max_al > max_trd & max_t & max_tr & max_w:
         add_alarm_clock()
+    elif max_al > max_trd & max_t & max_tr & max_w & max_al:
+        add_timer(text)
     else:
         play("Вы хотите поговорить?")
 
@@ -221,6 +230,9 @@ def time_to_epoch(time: str): #Перевод времени в Unix Epoch
                 minute = int(time[4:6]) * 60 #Получаем минуты в секундах
                 time = hours + minute #Получаем всё врем в секундах
                 return time
+
+def timer_time_to_epoch(time: str):
+    pass
                 
 
 def check_clocks():
@@ -232,6 +244,9 @@ def check_clocks():
             clock.start()  #Воспроизводим звук
         else:
             pass
+
+def check_timers():
+    pass
                 
 
 def add_alarm_clock():
@@ -240,6 +255,11 @@ def add_alarm_clock():
     date = to_epoch(time)
     clock.add("Будильник", date) #создаём будильник 
     play("Будильник добавлен")
+
+def add_timer(text: str):
+    for i in range(len(timer)):
+        text = text.replace(timer[i], '')
+
 
 
 rc.start()
