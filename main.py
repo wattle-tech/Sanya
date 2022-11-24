@@ -232,7 +232,22 @@ def time_to_epoch(time: str): #Перевод времени в Unix Epoch
                 return time
 
 def timer_time_to_epoch(time: str):
-    pass
+    if time.endswith("минут"):
+        time = time[0:2]
+        time = time * 60
+        return time
+    elif time.startswith("час") or time.startswith("часов"):
+        if time[0:2] > 24:
+            play("Не возможно поставить таймер более чем на 24 часа!")
+        else:
+            time = time[0:2]
+            time = time * 60 * 60
+            return time
+    else:
+        play("Повторите, пожалуйста!")
+        r = rc.recognition()
+        print(r)
+        
                 
 
 def check_clocks():
