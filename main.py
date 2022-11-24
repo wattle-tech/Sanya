@@ -274,6 +274,8 @@ def add_alarm_clock():
 def add_timer(text: str):
     for i in range(len(timer)):
         text = text.replace(timer[i], '')
+    time = timer_time_to_epoch(text)
+    timer.add
 
 
 
