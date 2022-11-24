@@ -28,6 +28,31 @@ class AlarmClock: #создаём класс
     def start(cls):
         # for playing ph_intr.mp3 file
         playsound.playsound('./data/sounds/clock.mp3')
+
+
+class Timer:
+
+    @classmethod
+    def add(cls, name: str, time: int):
+        cr.execute("INSERT INTO timer (time) VALUES (?)", #в таблицу clock добавляем name, time, sound
+                [time]) #Добавляем в бд данные
+        db.commit()
+
+    @classmethod
+    def get_clocks(cls):
+        clocks = cr.execute("SELECT * FROM timer") #получаем все данные из столбца name
+        return clocks
+    
+    @classmethod
+    def delete(cls, time):
+        cr.execute("DELETE FROM timer WHERE time <= ?", [time])
+        return db.commit()
+    
+    @classmethod
+    def start(cls):
+        # for playing ph_intr.mp3 file
+        playsound.playsound('./data/sounds/timer.mp3')
+
         
 
 
