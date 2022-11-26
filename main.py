@@ -43,6 +43,7 @@ speaker = 'eugene' #aidar, baya, kseniya, xenia, eugene, random
 device = torch.device('cpu') # gpu or cpu
 translate = Translator(from_lang="en", to_lang="ru")
 clock = db.AlarmClock()
+_timer = db.Timer()
 
 model, null = torch.hub.load(repo_or_dir='snakers4/silero-models',
                                     model='silero_tts',
@@ -137,7 +138,7 @@ def processing(text):
         if max_al < 60:
             max_al = 0
     
-    #alarm clock
+    #timer
     now_tm = 0
     max_tm = 0 #максимальные совпадения по категории перевода
     for tm in range(len(timer)):
@@ -158,8 +159,8 @@ def processing(text):
         translate_df()
     elif max_al > max_trd & max_t & max_tr & max_w:
         add_alarm_clock()
-    elif max_al > max_trd & max_t & max_tr & max_w & max_al:
-        add_timer(text)
+    elif max_tm > max_trd & max_t & max_tr & max_w & max_al:
+        add_timer()
     else:
         play("Вы хотите поговорить?")
 
@@ -246,6 +247,7 @@ def timer_time_to_epoch(time: str):
     else:
         play("Повторите, пожалуйста!")
         r = rc.recognition()
+        timer_time_to_epoch(r)
         print(r)
         
                 
@@ -271,11 +273,9 @@ def add_alarm_clock():
     clock.add("Будильник", date) #создаём будильник 
     play("Будильник добавлен")
 
-def add_timer(text: str):
-    for i in range(len(timer)):
-        text = text.replace(timer[i], '')
-    time = timer_time_to_epoch(text)
-    timer.add
+def add_timer():
+    time = None
+    _timer.add(time)
 
 
 
