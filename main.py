@@ -86,6 +86,7 @@ def starting_with_name():
 
 #Главная логика (распределение задач по функциям)
 def processing(text):
+                                    
     #time
     now_t = 0
     max_t = 0 #максимальные совпадения по категории времени
@@ -171,14 +172,17 @@ def time_f():
     text = f"Сейчас {n2t.int_to_ru(now.hour)} {n2t.int_to_ru(now.minute)}"
     play(text)
 
+
 def translate_f(text: str):
     for i in range(len(translate_list)):
         text = text.replace(translate_list[i], '')
     tr = translate.translate(text)
     play(tr)
 
+
 def translate_df():
     play("Извините, но данная функция не доступна. Попробуйте обновить клиент и повторить попытку позже!")
+
 
 def weather_f():
     city = str(geo.getcity())
@@ -223,6 +227,7 @@ def date_to_epoch(time: str): #Перевод даты в Unix Epoch
         print(r)
         to_epoch(r)
 
+
 def time_to_epoch(time: str): #Перевод времени в Unix Epoch
     for i in range(len(dates)): 
             if time.startswith(str(dates[i])):
@@ -231,6 +236,7 @@ def time_to_epoch(time: str): #Перевод времени в Unix Epoch
                 minute = int(time[4:6]) * 60 #Получаем минуты в секундах
                 time = hours + minute #Получаем всё врем в секундах
                 return time
+
 
 def timer_time_to_epoch(time: str):
     if time.endswith("минут"):
@@ -262,6 +268,7 @@ def check_clocks():
         else:
             pass
 
+
 def check_timers():
     pass
                 
@@ -272,6 +279,7 @@ def add_alarm_clock():
     date = to_epoch(time)
     clock.add("Будильник", date) #создаём будильник 
     play("Будильник добавлен")
+
 
 def add_timer():
     time = None
