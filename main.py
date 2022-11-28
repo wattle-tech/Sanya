@@ -27,6 +27,7 @@ translated = ["переведи диалог", "перевод диалога", 
 weather = ["какая погода", "что одеть на улицу", "какая температура", "сколько градусов"]
 al_clock = ["поставь будильник", "будильник", "новый будильник"]
 timer = ["таймер", "поставь таймер"]
+rubbish_words = ["на", "для", "под", "над"]
 
 #переменные для будильника
 dates = ["завтра в", "завтра", "послезавтра", "в"]
@@ -73,6 +74,10 @@ def input_i():
     text = str(rc.recognition())
     text = text.lower()
     return str(text)
+
+def delete_str (string: str):
+    for i in range(len(rubbish_words)):
+        string = string.replace(rubbish_words[i], "")
 
 def starting_with_name():
     text = input_i()
@@ -132,8 +137,10 @@ def processing(text):
     #alarm clock
     now_al = 0
     max_al = 0 #максимальные совпадения по категории перевода
+    old_str = text
+    new_str = delete_str(old_str)
     for a in range(len(al_clock)):
-        now_al = fuzz.ratio(text, al_clock[a]) #сравнение
+        now_al = fuzz.ratio(new_str, al_clock[a]) #сравнение
         if now_al > max_al:
             max_al = now_al
         if max_al < 60:
