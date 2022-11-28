@@ -192,8 +192,8 @@ def translate_df():
 
 
 def weather_f():
-    city = str(geo.getcity())
-    country_code = str(geo.getcountry())
+    city = str(geo.get_city())
+    country_code = str(geo.get_country())
     merge = city + ',' + country_code
 
     observation = mgr.weather_at_place(merge)
@@ -202,7 +202,7 @@ def weather_f():
     status = w.detailed_status
     temperature = w.temperature('celsius')['temp']
     comb = str("В вашем городе сейчас " + str(status) + ". Температура составляет " + n2t.int_to_ru(round(temperature)) + " градусов цельсия")
-    play (comb)
+    play(comb)
 
 
 
