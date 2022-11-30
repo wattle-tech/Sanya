@@ -75,7 +75,7 @@ def input_i():
     text = text.lower()
     return str(text)
 
-def delete_str (string: str):
+def delete_str(string: str):
     for i in range(len(rubbish_words)):
         string = string.replace(rubbish_words[i], "")
 
