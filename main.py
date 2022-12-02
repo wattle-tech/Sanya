@@ -188,8 +188,7 @@ def translate_f(text: str):
 
 
 def translate_df():
-    play("Извините, но данная функция не доступна. Попробуйте обновить клиент и повторить попытку позже!")
-
+    pass
 
 def weather_f():
     city = str(geo.getcity())
