@@ -288,8 +288,8 @@ def add_alarm_clock():
     play("Будильник добавлен")
 
 
-def add_timer():
-    time = None
+def add_timer(text: str):
+    time = timer_time_to_epoch(text)
     _timer.add(time)
 
 
