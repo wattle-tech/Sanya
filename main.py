@@ -114,6 +114,15 @@ def processing(text):
         if max_trd < 60:
             max_trd = 0
 
+    #translate
+    now_tr = 0
+    max_tr = 0 #максимальные совпадения по категории перевода
+    for z in range(len(translate_list)):
+        now_tr = fuzz.ratio(text, translate_list[z]) #сравнение
+        if now_tr > max_tr:
+            max_tr = now_tr
+        if max_tr < 60:
+            max_tr = 0
 
         #weather
     now_w = 0
