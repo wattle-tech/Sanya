@@ -56,9 +56,9 @@ def speech_recognition():
     pass
 
 def play(text: str, type = True):
-    if type == True:
+    if type is True:
         print("- " + text)
-    if type == False:
+    if type is False:
         print("  Функция: " + text)
     audio = model.apply_tts(text=text,
                             speaker=speaker,
