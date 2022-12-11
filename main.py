@@ -4,9 +4,9 @@ from pyowm.utils.config import get_default_config
 from api import num2text as n2t
 from api import recognize as rc
 from api import db, geo
+from api import translation
 from thefuzz import fuzz
 import sounddevice as sd
-from translate import Translator
 import torch
 import time
 from datetime import datetime, timedelta
@@ -42,7 +42,6 @@ model_id = 'v3_1_ru'
 sample_rate = 48000
 speaker = 'eugene' #aidar, baya, kseniya, xenia, eugene, random
 device = torch.device('cpu') # gpu or cpu
-translate = Translator(from_lang="en", to_lang="ru")
 clock = db.AlarmClock()
 _timer = db.Timer()
 
@@ -56,8 +55,11 @@ model.to(device)
 def speech_recognition():
     pass
 
-def play(text: str):
-    print("- " + text)
+def play(text: str, type = True):
+    if type == True:
+        print("- " + text)
+    if type == False:
+        print("  Функция: " + text)
     audio = model.apply_tts(text=text,
                             speaker=speaker,
                             sample_rate=sample_rate,
@@ -112,15 +114,6 @@ def processing(text):
         if max_trd < 60:
             max_trd = 0
 
-    #translate
-    now_tr = 0
-    max_tr = 0 #максимальные совпадения по категории перевода
-    for z in range(len(translate_list)):
-        now_tr = fuzz.ratio(text, translate_list[z]) #сравнение
-        if now_tr > max_tr:
-            max_tr = now_tr
-        if max_tr < 60:
-            max_tr = 0
 
         #weather
     now_w = 0
@@ -183,12 +176,13 @@ def time_f():
 def translate_f(text: str):
     for i in range(len(translate_list)):
         text = text.replace(translate_list[i], '')
-    tr = translate.translate(text)
+    tr = translation.translator_en(text)
     play(tr)
 
 
 def translate_df():
-    pass
+    play('Это функция диалогового перевода. Диалог начинает русскоговорящий. Для того, чтобы остановить работу функции скажите: "хватит!"', type=False)
+    play('Извините, но данная функция пока не доступна. Обновите клиент, или повторите попытку позже', type=False)
 
 def weather_f():
     city = str(geo.get_city())
