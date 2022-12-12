@@ -42,8 +42,6 @@ model_id = 'v3_1_ru'
 sample_rate = 48000
 speaker = 'eugene' #aidar, baya, kseniya, xenia, eugene, random
 device = torch.device('cpu') # gpu or cpu
-clock = db.AlarmClock()
-_timer = db.Timer()
 
 model, null = torch.hub.load(repo_or_dir='snakers4/silero-models',
                                     model='silero_tts',
@@ -52,23 +50,53 @@ model, null = torch.hub.load(repo_or_dir='snakers4/silero-models',
 model.to(device)
 
 
+#Модель голоса на английском
+language_en = 'en'
+model_id_en = 'v3_en'
+sample_rate_en = 48000
+speaker_en = 'en_1'
+device_en = torch.device('cpu') # gpu or cpu
+
+model_en, null_1 = torch.hub.load(repo_or_dir='snakers4/silero-models',
+                                    model='silero_tts',
+                                    language=language_en,
+                                    speaker=model_id_en)
+model_en.to(device_en)
+
+
+clock = db.AlarmClock()
+_timer = db.Timer()
+
+
 def speech_recognition():
     pass
 
-def play(text: str, type = True):
+def play(text: str, type = True, model_lang = True):
     if type is True:
         print("- " + text)
     if type is False:
         print("  Функция: " + text)
-    audio = model.apply_tts(text=text,
-                            speaker=speaker,
-                            sample_rate=sample_rate,
-                            put_accent=True,
-                            put_yo=True)
+    if model_lang is True:
+        audio = model.apply_tts(text=text,
+                                speaker=speaker,
+                                sample_rate=sample_rate,
+                                put_accent=True,
+                                put_yo=True)
+        sd.play(audio, sample_rate * 1.05) #Воспроизводим
+        time.sleep((len(audio) / sample_rate) + 0.5) #Ждёт столько сколько, идёт аудио
+        sd.stop() #Останавливает воспроизведение
 
-    sd.play(audio, sample_rate * 1.05) #Воспроизводим
-    time.sleep((len(audio) / sample_rate) + 0.5) #Ждёт столько сколько, идёт аудио
-    sd.stop() #Останавливает воспроизведение
+    else:
+        audio_en = model_en.apply_tts(text=text,
+                                    speaker=speaker_en,
+                                    sample_rate=sample_rate_en,
+                                    put_accent=True,
+                                    put_yo=True)
+        sd.play(audio_en, sample_rate * 1.05) #Воспроизводим
+        time.sleep((len(audio_en) / sample_rate) + 0.5) #Ждёт столько сколько, идёт аудио
+        sd.stop() #Останавливает воспроизведение
+
+    
 
 
 #На выходе должен выдавать str переменную, для дальнейшего использования
@@ -186,7 +214,7 @@ def translate_f(text: str):
     for i in range(len(translate_list)):
         text = text.replace(translate_list[i], '')
     tr = translation.translator_en(text)
-    play(tr)
+    play(tr, model_lang=False)
 
 
 def translate_df():
@@ -297,11 +325,9 @@ def add_timer(text: str):
 
 
 rc.start()
+play("I feel good", model_lang=False)
 print("Sanya 2.0 in using")
 
 while True:
     starting_with_name()
     check_clocks()
-    
-    
-
