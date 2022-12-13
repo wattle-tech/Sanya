@@ -51,7 +51,3 @@ class Timer:
     def start(cls):
         # for playing ph_intr.mp3 file
         playsound.playsound('./data/sounds/timer.mp3')
-
-        
-
-

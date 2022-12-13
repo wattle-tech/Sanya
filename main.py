@@ -325,7 +325,6 @@ def add_timer(text: str):
 
 
 rc.start()
-play("I feel good", model_lang=False)
 print("Sanya 2.0 in using")
 
 while True:

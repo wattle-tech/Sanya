@@ -18,5 +18,3 @@ def get_country() -> str:
     return data['country']
     #will load the json response into data
     #will print the data line by line
-
-
