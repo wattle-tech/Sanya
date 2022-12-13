@@ -62,7 +62,8 @@ class Assistant(Client):
         if lang == "en":
             print("hi")
         else:
-            pass
+            print("ru")
+            print(lang)
 
 
     

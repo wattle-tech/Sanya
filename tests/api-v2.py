@@ -3,4 +3,4 @@ import sanya
 
 vc = sanya.Assistant()
 
-vc.say("pon")
+vc.say("Hey guy, i'm Sanya")
