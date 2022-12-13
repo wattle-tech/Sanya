@@ -231,7 +231,7 @@ def timer_time_to_epoch(time: str):
         return time
     elif time.startswith("час") or time.startswith("часов"):
         if time[0:2] > 24:
-            play("Не возможно поставить таймер более чем на 24 часа!")
+            va.say("Не возможно поставить таймер более чем на 24 часа!")
         else:
             time = time[0:2]
             time = time * 60 * 60
