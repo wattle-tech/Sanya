@@ -36,33 +36,6 @@ tommorow = today + timedelta(1)
 
 
 
-#Модель голоса
-language = 'ru'
-model_id = 'v3_1_ru'
-sample_rate = 48000
-speaker = 'eugene' #aidar, baya, kseniya, xenia, eugene, random
-device = torch.device('cpu') # gpu or cpu
-
-model, null = torch.hub.load(repo_or_dir='snakers4/silero-models',
-                                    model='silero_tts',
-                                    language=language,
-                                    speaker=model_id)
-model.to(device)
-
-
-#Модель голоса на английском
-language_en = 'en'
-model_id_en = 'v3_en'
-sample_rate_en = 48000
-speaker_en = 'en_1'
-device_en = torch.device('cpu') # gpu or cpu
-
-model_en, null_1 = torch.hub.load(repo_or_dir='snakers4/silero-models',
-                                    model='silero_tts',
-                                    language=language_en,
-                                    speaker=model_id_en)
-model_en.to(device_en)
-
 
 clock = db.AlarmClock()
 _timer = db.Timer()
@@ -71,30 +44,6 @@ _timer = db.Timer()
 def speech_recognition():
     pass
 
-def play(text: str, type = True, model_lang = True):
-    if type is True:
-        print("- " + text)
-    if type is False:
-        print("  Функция: " + text)
-    if model_lang is True:
-        audio = model.apply_tts(text=text,
-                                speaker=speaker,
-                                sample_rate=sample_rate,
-                                put_accent=True,
-                                put_yo=True)
-        sd.play(audio, sample_rate * 1.05) #Воспроизводим
-        time.sleep((len(audio) / sample_rate) + 0.5) #Ждёт столько сколько, идёт аудио
-        sd.stop() #Останавливает воспроизведение
-
-    else:
-        audio_en = model_en.apply_tts(text=text,
-                                    speaker=speaker_en,
-                                    sample_rate=sample_rate_en,
-                                    put_accent=True,
-                                    put_yo=True)
-        sd.play(audio_en, sample_rate * 1.05) #Воспроизводим
-        time.sleep((len(audio_en) / sample_rate) + 0.5) #Ждёт столько сколько, идёт аудио
-        sd.stop() #Останавливает воспроизведение
 
     
 
@@ -200,26 +149,26 @@ def processing(text):
     elif max_tm > max_trd & max_t & max_tr & max_w & max_al:
         add_timer()
     else:
-        play("Вы хотите поговорить?")
+        va.say("Вы хотите поговорить?")
 
 
 #commands
 def time_f():
     now = datetime.now()
     text = f"Сейчас {sanya.text_num(now.hour)} {sanya.text_num(now.minute)}"
-    play(text)
+    va.say(text)
 
 
 def translate_f(text: str):
     for i in range(len(translate_list)):
         text = text.replace(translate_list[i], '')
     tr = translation.translator_en(text)
-    play(tr, model_lang=False)
+    va.say(tr, model_lang=False)
 
 
 def translate_df():
-    play('Это функция диалогового перевода. Диалог начинает русскоговорящий. Для того, чтобы остановить работу функции скажите: "хватит!"', type=False)
-    play('Извините, но данная функция пока не доступна. Обновите клиент, или повторите попытку позже', type=False)
+    va.say('Это функция диалогового перевода. Диалог начинает русскоговорящий. Для того, чтобы остановить работу функции скажите: "хватит!"', type=False)
+    va.say('Извините, но данная функция пока не доступна. Обновите клиент, или повторите попытку позже', type=False)
 
 def weather_f():
     city = str(sanya.geo.city)
@@ -232,7 +181,7 @@ def weather_f():
     status = w.detailed_status
     temperature = w.temperature('celsius')['temp']
     comb = str("В вашем городе сейчас " + str(status) + ". Температура составляет " + sanya.text_num(round(temperature)) + " градусов цельсия")
-    play(comb)
+    va.say(comb)
 
 
 
@@ -259,7 +208,7 @@ def date_to_epoch(time: str): #Перевод даты в Unix Epoch
         date = datetime(int(time[0:4]), int(time[5:7]), int(time[8:10])).timestamp()
         return date
     else:
-        play("Повторите, пожалуйста!")
+        va.say("Повторите, пожалуйста!")
         r = va.listen()
         print(r)
         to_epoch(r)
@@ -288,7 +237,7 @@ def timer_time_to_epoch(time: str):
             time = time * 60 * 60
             return time
     else:
-        play("Повторите, пожалуйста!")
+        va.say("Повторите, пожалуйста!")
         r = va.listen()
         timer_time_to_epoch(r)
         print(r)
@@ -311,11 +260,11 @@ def check_timers():
                 
 
 def add_alarm_clock():
-    play("Когда хотите, что бы прозвенел будильник?")
+    va.say("Когда хотите, что бы прозвенел будильник?")
     time = va.listen()
     date = to_epoch(time)
     clock.add("Будильник", date) #создаём будильник 
-    play("Будильник добавлен")
+    va.say("Будильник добавлен")
 
 
 def add_timer(text: str):

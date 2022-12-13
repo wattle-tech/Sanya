@@ -1,5 +1,9 @@
 {
     "name": "Саня",
-    "age": 13
+    "age": 13,
+    "statistics": {
+        "requests": 0,
+        "http_requests": 0
+    }
     
 }
