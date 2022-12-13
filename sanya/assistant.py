@@ -14,7 +14,7 @@ class Assistant(Client):
         self.noise = 0
         
 
-    def _en(self, text: str):
+    def _en_model(self, text: str):
         #Модель голоса на английском
         language_en = 'en'
         model_id_en = 'v3_en'
@@ -36,7 +36,7 @@ class Assistant(Client):
         time.sleep((len(audio_en) / self.sample_rate) + 0.5) #Ждёт столько сколько, идёт аудио
         sd.stop() #Останавливает воспроизведение
 
-    def _ru(self, text: str):
+    def _ru_model(self, text: str):
         #Модель голоса
         language = 'ru'
         model_id = 'v3_1_ru'
@@ -65,9 +65,9 @@ class Assistant(Client):
         lang = "en"
 
         if lang == "en":
-            self._en(text)
+            self._en_model(text)
         else:
-            self._ru(text)
+            self._ru_model(text)
     
 
     def listen(self):
