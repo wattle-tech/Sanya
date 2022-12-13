@@ -1,2 +1,2 @@
 # Sanya
-Voice Assistant that you can't imagine 
+Voice assistant that you can't even imagine
