@@ -1,10 +1,10 @@
 #Импорты
 from pyowm import OWM 
 from pyowm.utils.config import get_default_config
-from api import num2text as n2t
-from api import recognize as rc
-from api import db, geo
-from api import translation
+from sanya import num2text as n2t
+from sanya import recognize as rc
+from sanya import db, geo
+from sanya import translation
 from thefuzz import fuzz
 import sounddevice as sd
 import torch
