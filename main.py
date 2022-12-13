@@ -1,9 +1,8 @@
 #Импорты
 from pyowm import OWM 
 from pyowm.utils.config import get_default_config
-from sanya import num2text as n2t
-from sanya import recognize as rc
-from sanya import db, geo
+import sanya
+from sanya import db
 from sanya import translation
 from thefuzz import fuzz
 import sounddevice as sd
@@ -17,6 +16,7 @@ from plyer import notification #Для взаимодействия с комп�
 config_dict = get_default_config()
 owm = OWM("0ffeef161fa19695120a011826869e66")
 mgr = owm.weather_manager()
+va = sanya.Assistant()
 config_dict['connection']['use_ssl'] = False
 config_dict['connection']["verify_ssl_certs"] = False
 config_dict['language'] = 'ru'
@@ -101,7 +101,7 @@ def play(text: str, type = True, model_lang = True):
 
 #На выходе должен выдавать str переменную, для дальнейшего использования
 def input_i():
-    text = str(rc.recognition())
+    text = str(va.listen())
     text = text.lower()
     return str(text)
 
@@ -206,7 +206,7 @@ def processing(text):
 #commands
 def time_f():
     now = datetime.now()
-    text = f"Сейчас {n2t.int_to_ru(now.hour)} {n2t.int_to_ru(now.minute)}"
+    text = f"Сейчас {sanya.text_num(now.hour)} {sanya.text_num(now.minute)}"
     play(text)
 
 
@@ -222,8 +222,8 @@ def translate_df():
     play('Извините, но данная функция пока не доступна. Обновите клиент, или повторите попытку позже', type=False)
 
 def weather_f():
-    city = str(geo.get_city())
-    country_code = str(geo.get_country())
+    city = str(sanya.geo.city)
+    country_code = str(sanya.geo.country)
     merge = city + ',' + country_code
 
     observation = mgr.weather_at_place(merge)
@@ -231,7 +231,7 @@ def weather_f():
 
     status = w.detailed_status
     temperature = w.temperature('celsius')['temp']
-    comb = str("В вашем городе сейчас " + str(status) + ". Температура составляет " + n2t.int_to_ru(round(temperature)) + " градусов цельсия")
+    comb = str("В вашем городе сейчас " + str(status) + ". Температура составляет " + sanya.text_num(round(temperature)) + " градусов цельсия")
     play(comb)
 
 
@@ -260,7 +260,7 @@ def date_to_epoch(time: str): #Перевод даты в Unix Epoch
         return date
     else:
         play("Повторите, пожалуйста!")
-        r = rc.recognition()
+        r = va.listen()
         print(r)
         to_epoch(r)
 
@@ -289,7 +289,7 @@ def timer_time_to_epoch(time: str):
             return time
     else:
         play("Повторите, пожалуйста!")
-        r = rc.recognition()
+        r = va.listen()
         timer_time_to_epoch(r)
         print(r)
         
@@ -312,7 +312,7 @@ def check_timers():
 
 def add_alarm_clock():
     play("Когда хотите, что бы прозвенел будильник?")
-    time = rc.recognition()
+    time = va.listen()
     date = to_epoch(time)
     clock.add("Будильник", date) #создаём будильник 
     play("Будильник добавлен")
@@ -324,8 +324,8 @@ def add_timer(text: str):
 
 
 
-rc.start()
-play("I feel good", model_lang=False)
+va.listen()
+va.say("I feel good")
 print("Sanya 2.0 in using")
 
 while True:

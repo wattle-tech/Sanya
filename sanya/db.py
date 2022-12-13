@@ -1,6 +1,7 @@
 import sqlite3
 import time
 import playsound
+import json
 
 
 db = sqlite3.connect("./data/db.db")
@@ -54,4 +55,13 @@ class Timer:
 
         
 
+class Data:
+    @classmethod
+    def get(cls):
+        with open(f'data/user.json', 'r') as f:
+            file = json.load(f)
+        return file
+        
+
+        
 

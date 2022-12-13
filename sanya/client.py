@@ -1,9 +1,8 @@
-
-class Member:
+class Client:
+    """:class:`.Client` will be use for getting info about client"""
     pass
 
-class Client:
-    def __init__(self) -> None:
-        self.user = Member | None
+    
+    
     
     

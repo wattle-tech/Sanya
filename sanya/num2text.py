@@ -1,5 +1,9 @@
 #Перевод int, на русский язык
-def int_to_ru(num: int):
+
+
+__all__=("text_num")
+
+def text_num(num: int):
     d = { 0 : 'ноль', 1 : 'один', 2 : 'два', 3 : 'три', 4 : 'четыре', 5 : 'пять',
           6 : 'шесть', 7 : 'семь', 8 : 'восемь', 9 : 'девять', 10 : 'десять',
           11 : 'одиннадцать', 12 : 'двеннадцать', 13 : 'тринадцать', 14 : 'четырнадцать',
@@ -23,20 +27,20 @@ def int_to_ru(num: int):
 
     if (num < k):
         if num % 100 == 0: return d[num // 100] + ' сто'
-        else: return d[num // 100] + ' сто ' + int_to_ru(num % 100)
+        else: return d[num // 100] + ' сто ' + text_num(num % 100)
 
     if (num < m):
-        if num % k == 0: return int_to_ru(num // k) + ' тысяча'
-        else: return int_to_ru(num // k) + ' тысяча, ' + int_to_ru(num % k)
+        if num % k == 0: return text_num(num // k) + ' тысяча'
+        else: return text_num(num // k) + ' тысяча, ' + text_num(num % k)
 
     if (num < b):
-        if (num % m) == 0: return int_to_ru(num // m) + ' миллион'
-        else: return int_to_ru(num // m) + ' миллион, ' + int_to_ru(num % m)
+        if (num % m) == 0: return text_num(num // m) + ' миллион'
+        else: return text_num(num // m) + ' миллион, ' + text_num(num % m)
 
     if (num < t):
-        if (num % b) == 0: return int_to_ru(num // b) + ' миллиард'
-        else: return int_to_ru(num // b) + ' миллиард, ' + int_to_ru(num % b)
+        if (num % b) == 0: return text_num(num // b) + ' миллиард'
+        else: return text_num(num // b) + ' миллиард, ' + text_num(num % b)
 
-    if (num % t == 0): return int_to_ru(num // t) + ' трилион'
+    if (num % t == 0): return text_num(num // t) + ' трилион'
     else: 
-        return int_to_ru(num // t) + ' трилион, ' + int_to_ru(num % t)
+        return text_num(num // t) + ' трилион, ' + text_num(num % t)

@@ -1,5 +1,5 @@
 from .client import *
-import langdetect
+from .recognize import Recognition
 import sounddevice as sd
 import torch
 import time
@@ -9,12 +9,15 @@ __all__ =(
 )
 
 class Assistant(Client):
+    def __init__(self) -> None:
+        self.sample_rate = 48000
+        self.noise = 0
+        
 
     def _en(self, text: str):
         #Модель голоса на английском
         language_en = 'en'
         model_id_en = 'v3_en'
-        sample_rate = 48000
         speaker_en = 'en_1'
         device_en = torch.device('cpu') # gpu or cpu
 
@@ -26,18 +29,17 @@ class Assistant(Client):
 
         audio_en = model_en.apply_tts(text=text,
                                     speaker=speaker_en,
-                                    sample_rate=sample_rate,
+                                    sample_rate=self.sample_rate,
                                     put_accent=True,
                                     put_yo=True)
-        sd.play(audio_en, sample_rate * 1.05) #Воспроизводим
-        time.sleep((len(audio_en) / sample_rate) + 0.5) #Ждёт столько сколько, идёт аудио
+        sd.play(audio_en, self.sample_rate * 1.05) #Воспроизводим
+        time.sleep((len(audio_en) / self.sample_rate) + 0.5) #Ждёт столько сколько, идёт аудио
         sd.stop() #Останавливает воспроизведение
 
     def _ru(self, text: str):
         #Модель голоса
         language = 'ru'
         model_id = 'v3_1_ru'
-        sample_rate = 48000
         speaker = 'eugene' #aidar, baya, kseniya, xenia, eugene, random
         device = torch.device('cpu') # gpu or cpu
 
@@ -49,21 +51,32 @@ class Assistant(Client):
 
         audio = model.apply_tts(text=text,
                                 speaker=speaker,
-                                sample_rate=sample_rate,
+                                sample_rate=self.sample_rate,
                                 put_accent=True,
                                 put_yo=True)
-        sd.play(audio, sample_rate * 1.05) #Воспроизводим
-        time.sleep((len(audio) / sample_rate) + 0.5) #Ждёт столько сколько, идёт аудио
+        sd.play(audio, self.sample_rate * 1.05) #Воспроизводим
+        time.sleep((len(audio) / self.sample_rate) + 0.5) #Ждёт столько сколько, идёт аудио
         sd.stop()
+        
+    
 
     def say(self, text: str):
-        lang = langdetect.detect(text)
+        """:meth:`.say` is use for playing some text"""
+        lang = "en"
 
         if lang == "en":
-            print("hi")
+            self._en(text)
         else:
-            print("ru")
-            print(lang)
+            self._ru(text)
+    
+
+    def listen(self):
+        if self.noise == 0:
+            Recognition.start()
+            self.noise += 1
+        else:
+            return Recognition.recognition()
+    
 
 
     
