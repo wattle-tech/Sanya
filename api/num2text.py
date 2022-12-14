@@ -1,5 +1,5 @@
 #Перевод int, на русский язык
-def int_to_ru(num: int):
+def plus(num: int):
     d = { 0 : 'ноль', 1 : 'один', 2 : 'два', 3 : 'три', 4 : 'четыре', 5 : 'пять',
           6 : 'шесть', 7 : 'семь', 8 : 'восемь', 9 : 'девять', 10 : 'десять',
           11 : 'одиннадцать', 12 : 'двеннадцать', 13 : 'тринадцать', 14 : 'четырнадцать',
@@ -11,8 +11,10 @@ def int_to_ru(num: int):
     m = k * 1000
     b = m * 1000
     t = b * 1000
-
-    assert(0 <= num)
+    
+    if num < 0:
+        num = num * -1
+        print (num)
 
     if (num < 20):
         return d[num]
@@ -40,3 +42,13 @@ def int_to_ru(num: int):
     if (num % t == 0): return int_to_ru(num // t) + ' трилион'
     else: 
         return int_to_ru(num // t) + ' трилион, ' + int_to_ru(num % t)
+
+
+def int_to_ru(num: int):
+    if num > 0:
+        return str(plus(num))
+    if num < 0:
+        comb = "минус " + str(plus(num))
+        return comb
+
+print (int_to_ru (int(input())))
