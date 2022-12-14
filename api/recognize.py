@@ -6,7 +6,7 @@ def start():
     with sr.Microphone() as mic:
         r.adjust_for_ambient_noise(source=mic)
 
-def recognition():
+def recognition(language = 'ru-RU'):
     try:
         with sr.Microphone() as mic:
             audio = r.listen(source=mic)

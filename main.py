@@ -68,9 +68,6 @@ clock = db.AlarmClock()
 _timer = db.Timer()
 
 
-def speech_recognition():
-    pass
-
 def play(text: str, type = True, model_lang = True):
     if type is True:
         print("- " + text)
@@ -219,7 +216,7 @@ def translate_f(text: str):
 
 def translate_df():
     play('Это функция диалогового перевода. Диалог начинает русскоговорящий. Для того, чтобы остановить работу функции скажите: "хватит!"', type=False)
-    play('Извините, но данная функция пока не доступна. Обновите клиент, или повторите попытку позже', type=False)
+    
 
 def weather_f():
     city = str(geo.get_city())
