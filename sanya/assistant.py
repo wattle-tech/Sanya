@@ -1,5 +1,4 @@
-from .client import *
-from .recognize import Recognition
+from .intents import Intents
 import sounddevice as sd
 import torch
 import time
@@ -8,7 +7,7 @@ __all__ =(
     "Assistant"
 )
 
-class Assistant(Client):
+class Assistant(Intents):
     def __init__(self) -> None:
         self.sample_rate = 48000
         self.noise = 0
@@ -72,10 +71,10 @@ class Assistant(Client):
 
     def listen(self):
         if self.noise == 0:
-            Recognition.start()
+            self.recognition.start()
             self.noise += 1
         else:
-            return Recognition.recognition()
+            return self.recognition.recognition()
     
 
 

@@ -10,9 +10,8 @@ __copyright__ = "Copyright 2022 Zebra inc. & Copyright 2022-present Zebra inc."
 
 
 
-from .geo import Geo
 from .assistant import Assistant
-from .recognize import Recognition
-from .num2text import *
+from .intents import Intents
+from .num2text import text_num
 
-geo = Geo()
+

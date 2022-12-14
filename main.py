@@ -3,7 +3,6 @@ from pyowm import OWM
 from pyowm.utils.config import get_default_config
 import sanya
 from sanya import db
-from sanya import translation
 from thefuzz import fuzz
 import sounddevice as sd
 import torch
@@ -162,7 +161,7 @@ def time_f():
 def translate_f(text: str):
     for i in range(len(translate_list)):
         text = text.replace(translate_list[i], '')
-    tr = translation.translator_en(text)
+    tr = va.translator_en(text)
     va.say(tr, model_lang=False)
 
 
@@ -171,8 +170,8 @@ def translate_df():
     va.say('Извините, но данная функция пока не доступна. Обновите клиент, или повторите попытку позже', type=False)
 
 def weather_f():
-    city = str(sanya.geo.city)
-    country_code = str(sanya.geo.country)
+    city = str(va.geo.city)
+    country_code = str(va.geo.country)
     merge = city + ',' + country_code
 
     observation = mgr.weather_at_place(merge)
