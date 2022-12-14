@@ -8,10 +8,13 @@ def start():
 
 def recognition(language = 'ru-RU'):
     try:
+
         with sr.Microphone() as mic:
             audio = r.listen(source=mic)
             recogn = r.recognize_google(audio_data=audio, language=language)
-            return str(recogn)
+            if recogn != None:
+                return(str(recogn))
+
     except sr.UnknownValueError:
         pass
     except sr.RequestError:

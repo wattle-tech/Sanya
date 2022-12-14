@@ -68,11 +68,11 @@ clock = db.AlarmClock()
 _timer = db.Timer()
 
 
-def play(text: str, type = True, model_lang = True):
+def play(text: str, type = True, model_lang = True, prefix = 'Функция'):
     if type is True:
         print("- " + text)
     if type is False:
-        print("  Функция: " + text)
+        print(str(prefix) + ': ' + text)
     if model_lang is True:
         audio = model.apply_tts(text=text,
                                 speaker=speaker,
@@ -216,7 +216,11 @@ def translate_f(text: str):
 
 def translate_df():
     play('Это функция диалогового перевода. Диалог начинает русскоговорящий. Для того, чтобы остановить работу функции скажите: "хватит!"', type=False)
-    
+    while True:
+        play("Говорите:")
+        rutext = str(rc.recognition())
+        entext = translation.translator_ru(rutext)
+        play(entext, type=False, model_lang=False)
 
 def weather_f():
     city = str(geo.get_city())
