@@ -50,5 +50,3 @@ def int_to_ru(num: int):
     if num < 0:
         comb = "минус " + str(plus(num))
         return comb
-
-print (int_to_ru (int(input())))
