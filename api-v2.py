@@ -1,6 +1,6 @@
 import sanya
 
-vc = sanya.Assistant()
+va = sanya.Assistant()
 
-print(sanya.geo.city)
-print(vc.member)
+
+print(va.member)
