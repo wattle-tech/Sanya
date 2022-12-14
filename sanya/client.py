@@ -1,11 +1,10 @@
+from .member import *
 
-
-class BaseIntents:
-    pass
 class Client:
-    """:class:`.Client` will be use for getting info about client"""
+    """:class:`.Client` will be use for getting info about client (`geo`, `personal data` etc.)"""
     
-    pass
+    def member():
+        return Member()
     
     
 
