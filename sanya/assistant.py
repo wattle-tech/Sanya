@@ -13,7 +13,7 @@ class Assistant(Intents):
         self.noise = 0
         
 
-    def _en_model(self, text: str):
+    def __en_model(self, text: str):
         #Модель голоса на английском
         language_en = 'en'
         model_id_en = 'v3_en'
@@ -35,7 +35,7 @@ class Assistant(Intents):
         time.sleep((len(audio_en) / self.sample_rate) + 0.5) #Ждёт столько сколько, идёт аудио
         sd.stop() #Останавливает воспроизведение
 
-    def _ru_model(self, text: str):
+    def __ru_model(self, text: str):
         #Модель голоса
         language = 'ru'
         model_id = 'v3_1_ru'
@@ -64,9 +64,9 @@ class Assistant(Intents):
         lang = "en"
 
         if lang == "en":
-            self._en_model(text)
+            self.__en_model(text)
         else:
-            self._ru_model(text)
+            self.__ru_model(text)
     
 
     def listen(self):
