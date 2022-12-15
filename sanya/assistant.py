@@ -10,7 +10,7 @@ __all__ =(
 class Assistant(Intents):
     def __init__(self) -> None:
         self.sample_rate = 48000
-        self.noise = 0
+        self.__noise = 0
         
 
     def __en_model(self, text: str):
@@ -70,7 +70,7 @@ class Assistant(Intents):
     
 
     def listen(self):
-        if self.noise == 0:
+        if self.__noise == 0:
             self.recognition.start()
             self.noise += 1
         else:
