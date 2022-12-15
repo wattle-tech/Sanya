@@ -1,5 +1,4 @@
 import sanya
-
 va = sanya.Assistant()
 
 
