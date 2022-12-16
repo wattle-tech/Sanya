@@ -1,4 +1,5 @@
 data/db.db
 sanya/__pycache__
+sanya/intents/__pycache__
 .gitignore
 

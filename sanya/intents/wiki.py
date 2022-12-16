@@ -7,7 +7,7 @@ __all__ = ("Wikipedia")
 
 
 class Wikipedia:
-    def search(self, page: str):
+    def search(self, page: str) -> str:
         response = requests.get(
             url=f"https://en.wikipedia.org/wiki/{page}",
         )

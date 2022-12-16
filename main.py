@@ -158,9 +158,9 @@ def time_f():
 
 
 def translate_f(text: str):
-    for i in range(len(translate_list)):
-        text = text.replace(translate_list[i], '')
-    tr = i.translate.translator_en(text)
+    for j in range(len(translate_list)):
+        text = text.replace(translate_list[j], '')
+    tr = i.translate.en(text)
     va.say(tr, model_lang=False)
 
 
@@ -169,12 +169,12 @@ def translate_df():
     while True:
         va.say("Говорите:")
         rutext = str(va.listen())
-        entext = i.translate.translator_ru(rutext)
-        va.say(entext, type=False, model_lang=False)
+        entext = i.translate.ru(rutext)
+        va.say(entext)
 
 def weather_f():
-    city = str(i.geo.city())
-    country_code = str(i.geo.country())
+    city = str(i.geo.city)
+    country_code = str(i.geo.country)
     merge = city + ',' + country_code
 
     observation = mgr.weather_at_place(merge)

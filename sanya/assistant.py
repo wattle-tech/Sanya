@@ -61,7 +61,7 @@ class Assistant:
 
     def say(self, text: str):
         """:meth:`.say` is use for playing some text"""
-        lang = "en"
+        lang = "ru"
 
         if lang == "en":
             self.__en_model(text)
@@ -73,11 +73,11 @@ class Assistant:
 
     def listen(self):
         if self.__noise == 0:
-            recognition.start
+            recognition.start()
             self.__noise += 1
             print(self.__noise)
         else:
-            return recognition.listen
+            return str(recognition.listen())
     
 
 

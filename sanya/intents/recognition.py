@@ -4,11 +4,11 @@ import speech_recognition as sr
 r = sr.Recognizer()
 
 class Recognition:
-    def start():
+    def start(self):
         with sr.Microphone() as mic:
             r.adjust_for_ambient_noise(source=mic)
 
-    def listen():
+    def listen(self) -> str:
         try:
             with sr.Microphone() as mic:
                 audio = r.listen(source=mic)
