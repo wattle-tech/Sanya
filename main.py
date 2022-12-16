@@ -42,10 +42,6 @@ _timer = db.Timer()
 def speech_recognition():
     pass
 
-
-    
-
-
 #На выходе должен выдавать str переменную, для дальнейшего использования
 def input_i():
     text = str(va.listen())
@@ -64,8 +60,6 @@ def starting_with_name():
                 text = text.replace(names[i], '')
                 processing(text)
                 
-
-
 #Главная логика (распределение задач по функциям)
 def processing(text):
                                     
@@ -156,13 +150,11 @@ def time_f():
     text = f"Сейчас {sanya.int_to_ru(now.hour)} {sanya.int_to_ru(now.minute)}"
     va.say(text)
 
-
 def translate_f(text: str):
     for j in range(len(translate_list)):
         text = text.replace(translate_list[j], '')
     tr = i.translate.en(text)
     va.say(tr, model_lang=False)
-
 
 def translate_df():
     va.say('Это функция диалогового перевода. Диалог начинает русскоговорящий. Для того, чтобы остановить работу функции скажите: "хватит!"', type=False)
@@ -185,15 +177,12 @@ def weather_f():
     comb = str("В вашем городе сейчас " + str(status) + ". Температура составляет " + sanya.int_to_ru(round(temperature)) + " градусов цельсия")
     va.say(comb)
 
-
-
 def to_epoch(text: str): #Перевод строки в Unix Epoch
     date = date_to_epoch(text) #см. ниже
     time = time_to_epoch(text) #см. ниже
     epoch = date + time #складываем дату и время
     print(f"{epoch} - {date} - {time}") 
     return epoch
-
 
 def date_to_epoch(time: str): #Перевод даты в Unix Epoch
     if time.startswith("завтра"):
@@ -225,7 +214,6 @@ def time_to_epoch(time: str): #Перевод времени в Unix Epoch
                 time = hours + minute #Получаем всё врем в секундах
                 return time
 
-
 def timer_time_to_epoch(time: str):
     if time.endswith("минут"):
         time = time[0:2]
@@ -244,8 +232,6 @@ def timer_time_to_epoch(time: str):
         timer_time_to_epoch(r)
         print(r)
         
-                
-
 def check_clocks():
     l = clock.get_clocks() #Получаем всё время
     t = time.time() #Получаем Unix Epoch
@@ -255,7 +241,6 @@ def check_clocks():
             clock.start()  #Воспроизводим звук
         else:
             pass
-
 
 def check_timers():
     pass
@@ -268,12 +253,9 @@ def add_alarm_clock():
     clock.add("Будильник", date) #создаём будильник 
     va.say("Будильник добавлен")
 
-
 def add_timer(text: str):
     time = timer_time_to_epoch(text)
     _timer.add(time)
-
-
 
 va.listen()
 print("Sanya 2.0 in using")
