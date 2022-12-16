@@ -73,10 +73,11 @@ class Assistant:
 
     def listen(self):
         if self.__noise == 0:
-            recognition.start()
+            recognition.start
             self.__noise += 1
+            print(self.__noise)
         else:
-            return recognition.listen()
+            return recognition.listen
     
 
 

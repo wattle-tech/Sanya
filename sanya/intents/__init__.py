@@ -1,7 +1,7 @@
-from .geo import *
-from .recognition import *
-from .translate import *
-from .wiki import *
+from .geo import Geo
+from .recognition import Recognition
+from .translate import Translate
+from .wiki import Wikipedia
 
 
 #TODO: refactor this stupid thing 
