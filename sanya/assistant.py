@@ -1,4 +1,4 @@
-from .intents import Intents
+from .intents import recognition
 import sounddevice as sd
 import torch
 import time
@@ -7,9 +7,9 @@ __all__ =(
     "Assistant"
 )
 
-class Assistant(Intents):
+class Assistant:
     def __init__(self) -> None:
-        self.sample_rate = 48000
+        self.__sample_rate = 48000
         self.__noise = 0
         
 
@@ -28,11 +28,11 @@ class Assistant(Intents):
 
         audio_en = model_en.apply_tts(text=text,
                                     speaker=speaker_en,
-                                    sample_rate=self.sample_rate,
+                                    sample_rate=self.__sample_rate,
                                     put_accent=True,
                                     put_yo=True)
-        sd.play(audio_en, self.sample_rate * 1.05) #Воспроизводим
-        time.sleep((len(audio_en) / self.sample_rate) + 0.5) #Ждёт столько сколько, идёт аудио
+        sd.play(audio_en, self.__sample_rate * 1.05) #Воспроизводим
+        time.sleep((len(audio_en) / self.__sample_rate) + 0.5) #Ждёт столько сколько, идёт аудио
         sd.stop() #Останавливает воспроизведение
 
     def __ru_model(self, text: str):
@@ -50,11 +50,11 @@ class Assistant(Intents):
 
         audio = model.apply_tts(text=text,
                                 speaker=speaker,
-                                sample_rate=self.sample_rate,
+                                sample_rate=self.__sample_rate,
                                 put_accent=True,
                                 put_yo=True)
-        sd.play(audio, self.sample_rate * 1.05) #Воспроизводим
-        time.sleep((len(audio) / self.sample_rate) + 0.5) #Ждёт столько сколько, идёт аудио
+        sd.play(audio, self.__sample_rate * 1.05) #Воспроизводим
+        time.sleep((len(audio) / self.__sample_rate) + 0.5) #Ждёт столько сколько, идёт аудио
         sd.stop()
         
     
@@ -65,16 +65,18 @@ class Assistant(Intents):
 
         if lang == "en":
             self.__en_model(text)
-        else:
+        if lang == "ru":
             self.__ru_model(text)
+        else:
+            raise ValueError("This language isn't supported!")
     
 
     def listen(self):
         if self.__noise == 0:
-            self.recognition.start()
-            self.noise += 1
+            recognition.start()
+            self.__noise += 1
         else:
-            return self.recognition.recognition()
+            return recognition.listen()
     
 
 

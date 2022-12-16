@@ -11,7 +11,6 @@ __copyright__ = "Copyright 2022 Zebra inc. & Copyright 2022-present Zebra inc."
 
 
 from .assistant import Assistant
-from .intents import Intents
-from .num2text import NumConvert
+from .num2text import *
 
 

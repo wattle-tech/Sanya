@@ -2,10 +2,9 @@
 from pyowm import OWM 
 from pyowm.utils.config import get_default_config
 import sanya
+import sanya.intents as i
 from sanya import db
 from thefuzz import fuzz
-import sounddevice as sd
-import torch
 import time
 from datetime import datetime, timedelta
 from plyer import notification #Для взаимодействия с компом
@@ -154,24 +153,28 @@ def processing(text):
 #commands
 def time_f():
     now = datetime.now()
-    text = f"Сейчас {sanya.text_num(now.hour)} {sanya.text_num(now.minute)}"
+    text = f"Сейчас {sanya.int_to_ru(now.hour)} {sanya.int_to_ru(now.minute)}"
     va.say(text)
 
 
 def translate_f(text: str):
     for i in range(len(translate_list)):
         text = text.replace(translate_list[i], '')
-    tr = va.translator_en(text)
+    tr = i.translate.translator_en(text)
     va.say(tr, model_lang=False)
 
 
 def translate_df():
     va.say('Это функция диалогового перевода. Диалог начинает русскоговорящий. Для того, чтобы остановить работу функции скажите: "хватит!"', type=False)
-    va.say('Извините, но данная функция пока не доступна. Обновите клиент, или повторите попытку позже', type=False)
+    while True:
+        va.say("Говорите:")
+        rutext = str(va.listen())
+        entext = i.translate.translator_ru(rutext)
+        va.say(entext, type=False, model_lang=False)
 
 def weather_f():
-    city = str(va.geo.city)
-    country_code = str(va.geo.country)
+    city = str(i.geo.city())
+    country_code = str(i.geo.country())
     merge = city + ',' + country_code
 
     observation = mgr.weather_at_place(merge)
@@ -179,7 +182,7 @@ def weather_f():
 
     status = w.detailed_status
     temperature = w.temperature('celsius')['temp']
-    comb = str("В вашем городе сейчас " + str(status) + ". Температура составляет " + sanya.text_num(round(temperature)) + " градусов цельсия")
+    comb = str("В вашем городе сейчас " + str(status) + ". Температура составляет " + sanya.int_to_ru(round(temperature)) + " градусов цельсия")
     va.say(comb)
 
 
@@ -273,7 +276,6 @@ def add_timer(text: str):
 
 
 va.listen()
-va.say("I feel good")
 print("Sanya 2.0 in using")
 
 while True:
