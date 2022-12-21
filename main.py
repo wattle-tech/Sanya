@@ -7,6 +7,7 @@ from sanya import db
 from thefuzz import fuzz
 import time
 from datetime import datetime, timedelta
+from sanya import weatherp as wp
 from plyer import notification #Для взаимодействия с компом
 
 
