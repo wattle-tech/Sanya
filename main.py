@@ -33,6 +33,7 @@ today = datetime.now()
 tommorow = today + timedelta(1)
 
 
+i.geo.city
 
 
 clock = db.AlarmClock()
@@ -257,8 +258,12 @@ def add_timer(text: str):
     time = timer_time_to_epoch(text)
     _timer.add(time)
 
+
+
 va.listen()
 print("Sanya 2.0 in using")
+t = time.time()
+    
 
 while True:
     starting_with_name()

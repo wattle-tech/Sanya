@@ -13,7 +13,7 @@ class Assistant:
         self.__noise = 0
         
 
-    def __en_model(self, text: str):
+    def __en_model(self):
         #Модель голоса на английском
         language_en = 'en'
         model_id_en = 'v3_en'
@@ -25,15 +25,8 @@ class Assistant:
                                             language=language_en,
                                             speaker=model_id_en)
         model_en.to(device_en)
-
-        audio_en = model_en.apply_tts(text=text,
-                                    speaker=speaker_en,
-                                    sample_rate=self.__sample_rate,
-                                    put_accent=True,
-                                    put_yo=True)
-        sd.play(audio_en, self.__sample_rate * 1.05) #Воспроизводим
-        time.sleep((len(audio_en) / self.__sample_rate) + 0.5) #Ждёт столько сколько, идёт аудио
-        sd.stop() #Останавливает воспроизведение
+        return model_en
+        
 
     def __ru_model(self, text: str):
         #Модель голоса
@@ -47,16 +40,28 @@ class Assistant:
                                             language=language,
                                             speaker=model_id)
         model.to(device)
+        return model
+    
+    def __en_voice(self, text: str):
+        audio_en = model_en.apply_tts(text=text,
+                                    speaker='en_1',
+                                    sample_rate=self.__sample_rate,
+                                    put_accent=True,
+                                    put_yo=True)
+        sd.play(audio_en, self.__sample_rate * 1.05) #Воспроизводим
+        time.sleep((len(audio_en) / self.__sample_rate) + 0.5) #Ждёт столько сколько, идёт аудио
+        sd.stop() #Останавливает воспроизведение
+        
 
+    def __ru_voice(self, text: str):
         audio = model.apply_tts(text=text,
-                                speaker=speaker,
+                                speaker='eugene',
                                 sample_rate=self.__sample_rate,
                                 put_accent=True,
                                 put_yo=True)
         sd.play(audio, self.__sample_rate * 1.05) #Воспроизводим
         time.sleep((len(audio) / self.__sample_rate) + 0.5) #Ждёт столько сколько, идёт аудио
         sd.stop()
-        
     
 
     def say(self, text: str):
@@ -75,7 +80,6 @@ class Assistant:
         if self.__noise == 0:
             recognition.start()
             self.__noise += 1
-            print(self.__noise)
         else:
             return str(recognition.listen())
     
