@@ -10,3 +10,4 @@ api/__pycache__/recognize.cpython-310.pyc
 api\__pycache__\translation.cpython-310.pyc
 .gitignore
 .gitignore
+api/__pycache__/translation.cpython-310.pyc
