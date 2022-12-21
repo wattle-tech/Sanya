@@ -2,7 +2,7 @@ data/db.db
 sanya/__pycache__
 sanya/intents/__pycache__
 .gitignore
-
+.idea
 api/__pycache__/db.cpython-310.pyc
 api/__pycache__/geo.cpython-310.pyc
 api/__pycache__/num2text.cpython-310.pyc
