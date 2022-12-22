@@ -39,5 +39,3 @@ def weather_request (num: int):
     if num >= 40:
         v = random.randrange(0, len(plusforty))
         return plusforty[v]
-
-print(weather_request(int(input())))

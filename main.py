@@ -4,6 +4,7 @@ from pyowm.utils.config import get_default_config
 from api import num2text as n2t
 from api import recognize as rc
 from api import db, geo
+from api import weatherp as wp
 from api import translation
 from thefuzz import fuzz
 import sounddevice as sd
@@ -232,7 +233,7 @@ def weather_f():
 
     status = w.detailed_status
     temperature = w.temperature('celsius')['temp']
-    comb = str("В вашем городе сейчас " + str(status) + ". Температура составляет " + n2t.int_to_ru(round(temperature)) + " градусов цельсия")
+    comb = str("В вашем городе сейчас " + str(status) + ". Температура составляет " + n2t.int_to_ru(round(temperature)) + " градусов цельсия, " + str(wp.weather_request(int(temperature))))
     play(comb)
 
 

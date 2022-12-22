@@ -11,3 +11,4 @@ api\__pycache__\translation.cpython-310.pyc
 .gitignore
 .gitignore
 api/__pycache__/translation.cpython-310.pyc
+api/__pycache__/weatherp.cpython-310.pyc
