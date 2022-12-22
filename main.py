@@ -1,13 +1,15 @@
 #Импорты
 from pyowm import OWM 
 from pyowm.utils.config import get_default_config
-import sanya
-import sanya.intents as i
-from sanya import db
+from api import num2text as n2t
+from api import recognize as rc
+from api import db, geo
+from api import translation
 from thefuzz import fuzz
+import sounddevice as sd
+import torch
 import time
 from datetime import datetime, timedelta
-from sanya import weatherp as wp
 from plyer import notification #Для взаимодействия с компом
 
 
@@ -15,7 +17,6 @@ from plyer import notification #Для взаимодействия с комп�
 config_dict = get_default_config()
 owm = OWM("0ffeef161fa19695120a011826869e66")
 mgr = owm.weather_manager()
-va = sanya.Assistant()
 config_dict['connection']['use_ssl'] = False
 config_dict['connection']["verify_ssl_certs"] = False
 config_dict['language'] = 'ru'
@@ -34,19 +35,70 @@ today = datetime.now()
 tommorow = today + timedelta(1)
 
 
-i.geo.city
+
+#Модель голоса
+language = 'ru'
+model_id = 'v3_1_ru'
+sample_rate = 48000
+speaker = 'eugene' #aidar, baya, kseniya, xenia, eugene, random
+device = torch.device('cpu') # gpu or cpu
+
+model, null = torch.hub.load(repo_or_dir='snakers4/silero-models',
+                                    model='silero_tts',
+                                    language=language,
+                                    speaker=model_id)
+model.to(device)
+
+
+#Модель голоса на английском
+language_en = 'en'
+model_id_en = 'v3_en'
+sample_rate_en = 48000
+speaker_en = 'en_1'
+device_en = torch.device('cpu') # gpu or cpu
+
+model_en, null_1 = torch.hub.load(repo_or_dir='snakers4/silero-models',
+                                    model='silero_tts',
+                                    language=language_en,
+                                    speaker=model_id_en)
+model_en.to(device_en)
 
 
 clock = db.AlarmClock()
 _timer = db.Timer()
 
 
-def speech_recognition():
-    pass
+def play(text: str, type = True, model_lang = True, prefix = 'Функция'):
+    if type is True:
+        print("- " + text)
+    if type is False:
+        print(str(prefix) + ': ' + text)
+    if model_lang is True:
+        audio = model.apply_tts(text=text,
+                                speaker=speaker,
+                                sample_rate=sample_rate,
+                                put_accent=True,
+                                put_yo=True)
+        sd.play(audio, sample_rate * 1.05) #Воспроизводим
+        time.sleep((len(audio) / sample_rate) + 0.5) #Ждёт столько сколько, идёт аудио
+        sd.stop() #Останавливает воспроизведение
+
+    else:
+        audio_en = model_en.apply_tts(text=text,
+                                    speaker=speaker_en,
+                                    sample_rate=sample_rate_en,
+                                    put_accent=True,
+                                    put_yo=True)
+        sd.play(audio_en, sample_rate * 1.05) #Воспроизводим
+        time.sleep((len(audio_en) / sample_rate) + 0.5) #Ждёт столько сколько, идёт аудио
+        sd.stop() #Останавливает воспроизведение
+
+    
+
 
 #На выходе должен выдавать str переменную, для дальнейшего использования
 def input_i():
-    text = str(va.listen())
+    text = str(rc.recognition())
     text = text.lower()
     return str(text)
 
@@ -62,6 +114,8 @@ def starting_with_name():
                 text = text.replace(names[i], '')
                 processing(text)
                 
+
+
 #Главная логика (распределение задач по функциям)
 def processing(text):
                                     
@@ -143,32 +197,34 @@ def processing(text):
     elif max_tm > max_trd & max_t & max_tr & max_w & max_al:
         add_timer()
     else:
-        va.say("Вы хотите поговорить?")
+        play("Вы хотите поговорить?")
 
 
 #commands
 def time_f():
     now = datetime.now()
-    text = f"Сейчас {sanya.int_to_ru(now.hour)} {sanya.int_to_ru(now.minute)}"
-    va.say(text)
+    text = f"Сейчас {n2t.int_to_ru(now.hour)} {n2t.int_to_ru(now.minute)}"
+    play(text)
+
 
 def translate_f(text: str):
-    for j in range(len(translate_list)):
-        text = text.replace(translate_list[j], '')
-    tr = i.translate.en(text)
-    va.say(tr, model_lang=False)
+    for i in range(len(translate_list)):
+        text = text.replace(translate_list[i], '')
+    tr = translation.translator_en(text)
+    play(tr, model_lang=False)
+
 
 def translate_df():
-    va.say('Это функция диалогового перевода. Диалог начинает русскоговорящий. Для того, чтобы остановить работу функции скажите: "хватит!"', type=False)
+    play('Это функция диалогового перевода. Диалог начинает русскоговорящий. Для того, чтобы остановить работу функции скажите: "хватит!"', type=False)
     while True:
-        va.say("Говорите:")
-        rutext = str(va.listen())
-        entext = i.translate.ru(rutext)
-        va.say(entext)
+        play("Говорите:")
+        rutext = str(rc.recognition())
+        entext = translation.translator_ru(rutext)
+        play(entext, type=False, model_lang=False)
 
 def weather_f():
-    city = str(i.geo.city)
-    country_code = str(i.geo.country)
+    city = str(geo.get_city())
+    country_code = str(geo.get_country())
     merge = city + ',' + country_code
 
     observation = mgr.weather_at_place(merge)
@@ -176,8 +232,10 @@ def weather_f():
 
     status = w.detailed_status
     temperature = w.temperature('celsius')['temp']
-    comb = str("В вашем городе сейчас " + str(status) + ". Температура составляет " + sanya.int_to_ru(round(temperature)) + " градусов цельсия")
-    va.say(comb)
+    comb = str("В вашем городе сейчас " + str(status) + ". Температура составляет " + n2t.int_to_ru(round(temperature)) + " градусов цельсия")
+    play(comb)
+
+
 
 def to_epoch(text: str): #Перевод строки в Unix Epoch
     date = date_to_epoch(text) #см. ниже
@@ -185,6 +243,7 @@ def to_epoch(text: str): #Перевод строки в Unix Epoch
     epoch = date + time #складываем дату и время
     print(f"{epoch} - {date} - {time}") 
     return epoch
+
 
 def date_to_epoch(time: str): #Перевод даты в Unix Epoch
     if time.startswith("завтра"):
@@ -201,8 +260,8 @@ def date_to_epoch(time: str): #Перевод даты в Unix Epoch
         date = datetime(int(time[0:4]), int(time[5:7]), int(time[8:10])).timestamp()
         return date
     else:
-        va.say("Повторите, пожалуйста!")
-        r = va.listen()
+        play("Повторите, пожалуйста!")
+        r = rc.recognition()
         print(r)
         to_epoch(r)
 
@@ -216,6 +275,7 @@ def time_to_epoch(time: str): #Перевод времени в Unix Epoch
                 time = hours + minute #Получаем всё врем в секундах
                 return time
 
+
 def timer_time_to_epoch(time: str):
     if time.endswith("минут"):
         time = time[0:2]
@@ -223,17 +283,19 @@ def timer_time_to_epoch(time: str):
         return time
     elif time.startswith("час") or time.startswith("часов"):
         if time[0:2] > 24:
-            va.say("Не возможно поставить таймер более чем на 24 часа!")
+            play("Не возможно поставить таймер более чем на 24 часа!")
         else:
             time = time[0:2]
             time = time * 60 * 60
             return time
     else:
-        va.say("Повторите, пожалуйста!")
-        r = va.listen()
+        play("Повторите, пожалуйста!")
+        r = rc.recognition()
         timer_time_to_epoch(r)
         print(r)
         
+                
+
 def check_clocks():
     l = clock.get_clocks() #Получаем всё время
     t = time.time() #Получаем Unix Epoch
@@ -244,16 +306,18 @@ def check_clocks():
         else:
             pass
 
+
 def check_timers():
     pass
                 
 
 def add_alarm_clock():
-    va.say("Когда хотите, что бы прозвенел будильник?")
-    time = va.listen()
+    play("Когда хотите, что бы прозвенел будильник?")
+    time = rc.recognition()
     date = to_epoch(time)
     clock.add("Будильник", date) #создаём будильник 
-    va.say("Будильник добавлен")
+    play("Будильник добавлен")
+
 
 def add_timer(text: str):
     time = timer_time_to_epoch(text)
@@ -261,10 +325,8 @@ def add_timer(text: str):
 
 
 
-va.listen()
+rc.start()
 print("Sanya 2.0 in using")
-t = time.time()
-    
 
 while True:
     starting_with_name()
