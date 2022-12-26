@@ -214,14 +214,9 @@ def translate_f(text: str):
     tr = translation.translator_en(text)
     play(tr, model_lang=False)
 
-
 def translate_df():
-    play('Это функция диалогового перевода. Диалог начинает русскоговорящий. Для того, чтобы остановить работу функции скажите: "хватит!"', type=False)
-    while True:
-        play("Говорите:")
-        rutext = str(rc.recognition())
-        entext = translation.translator_ru(rutext)
-        play(entext, type=False, model_lang=False)
+    play('Ожидайте функцию в последующих обновлениях', type=False)
+
 
 def weather_f():
     city = str(geo.get_city())
