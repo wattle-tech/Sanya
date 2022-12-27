@@ -166,9 +166,8 @@ def processing(text):
     now_al = 0
     max_al = 0 #максимальные совпадения по категории перевода
     old_str = text
-    new_str = delete_str(old_str)
     for a in range(len(al_clock)):
-        now_al = fuzz.ratio(new_str, al_clock[a]) #сравнение
+        now_al = fuzz.ratio(old_str, al_clock[a]) #сравнение
         if now_al > max_al:
             max_al = now_al
         if max_al < 60:
@@ -251,7 +250,7 @@ def date_to_epoch(time: str): #Перевод даты в Unix Epoch
         time = two_days.strftime('%Y-%m-%d')
         date = datetime(int(time[0:4]), int(time[5:7]), int(time[8:10])).timestamp()
         return date
-    elif time.startswith("в"):
+    elif time.startswith("в") or time.startswith("сегодня в"):
         time = today.strftime('%Y-%m-%d')
         date = datetime(int(time[0:4]), int(time[5:7]), int(time[8:10])).timestamp()
         return date
