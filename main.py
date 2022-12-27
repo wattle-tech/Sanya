@@ -27,7 +27,7 @@ translate_list = ["переведи", "перевод", "перевод слов
 translated = ["переведи диалог", "перевод диалога", "функция диалогового перевода", "функция перевода диалога"]
 weather = ["какая погода", "что одеть на улицу", "какая температура", "сколько градусов"]
 al_clock = ["поставь будильник", "будильник", "новый будильник"]
-timer = ["таймер", "поставь таймер"]
+timer = ["таймер", "поставь таймер"] 
 rubbish_words = ["на", "для", "под", "над"]
 
 #переменные для будильника
@@ -235,9 +235,13 @@ def weather_f():
 def to_epoch(text: str): #Перевод строки в Unix Epoch
     date = date_to_epoch(text) #см. ниже
     time = time_to_epoch(text) #см. ниже
-    epoch = date + time #складываем дату и время
-    print(f"{epoch} - {date} - {time}") 
-    return epoch
+    try:
+        epoch = date + time #складываем дату и время
+        print(f"{epoch} - {date} - {time}") 
+        return epoch
+    except Exception:
+        play("что-то пошло не так, запустите команду заново!")
+    
 
 
 def date_to_epoch(time: str): #Перевод даты в Unix Epoch
@@ -270,6 +274,8 @@ def time_to_epoch(time: str): #Перевод времени в Unix Epoch
                 time = hours + minute #Получаем всё врем в секундах
                 return time
 
+
+#TODO: Timer system
 
 def timer_time_to_epoch(time: str):
     if time.endswith("минут"):
