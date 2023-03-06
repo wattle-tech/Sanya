@@ -29,12 +29,13 @@ weather = ["какая погода", "что одеть на улицу", "ка
 al_clock = ["поставь будильник", "будильник", "новый будильник"]
 timer = ["таймер", "поставь таймер"] 
 rubbish_words = ["на", "для", "под", "над"]
+fwords = ["суицид", "самоубийство", "гитлер", "гитлерюгент", "газовая камера", "наркотики", "наркотикам", "героин", "мефедрон", "как ты относишся к"]
+
 
 #переменные для будильника
 dates = ["завтра в", "завтра", "послезавтра", "в"]
 today = datetime.now()
 tommorow = today + timedelta(1)
-
 
 
 #Модель голоса
@@ -95,8 +96,6 @@ def play(text: str, type = True, model_lang = True, prefix = 'Функция'):
         sd.stop() #Останавливает воспроизведение
 
     
-
-
 #На выходе должен выдавать str переменную, для дальнейшего использования
 def input_i():
     text = str(rc.recognition())
@@ -115,7 +114,6 @@ def starting_with_name():
                 text = text.replace(names[i], '')
                 processing(text)
                 
-
 
 #Главная логика (распределение задач по функциям)
 def processing(text):
@@ -213,6 +211,7 @@ def translate_f(text: str):
     tr = translation.translator_en(text)
     play(tr, model_lang=False)
 
+
 def translate_df():
     play('Ожидайте функцию в последующих обновлениях', type=False)
 
@@ -231,7 +230,6 @@ def weather_f():
     play(comb)
 
 
-
 def to_epoch(text: str): #Перевод строки в Unix Epoch
     date = date_to_epoch(text) #см. ниже
     time = time_to_epoch(text) #см. ниже
@@ -242,7 +240,6 @@ def to_epoch(text: str): #Перевод строки в Unix Epoch
     except Exception:
         play("что-то пошло не так, запустите команду заново!")
     
-
 
 def date_to_epoch(time: str): #Перевод даты в Unix Epoch
     if time.startswith("завтра"):
@@ -296,7 +293,6 @@ def timer_time_to_epoch(time: str):
         print(r)
         
                 
-
 def check_clocks():
     l = clock.get_clocks() #Получаем всё время
     t = time.time() #Получаем Unix Epoch
@@ -325,9 +321,13 @@ def add_timer(text: str):
     _timer.add(time)
 
 
+def dialogs(text: str):
+    pass
+
 
 rc.start()
 print("Sanya 2.0 in using")
+
 
 while True:
     starting_with_name()
